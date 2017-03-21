@@ -3,3 +3,69 @@ h1 {
   font-family: Arial, Helvetica, sans-serif;
   font-size: 250%;
 }
+#title-text {
+  color: #005588;
+  font-family: Oxygen, Arial, Helvetica, sans-serif;
+  text-align: center;
+  font-size: 250%;
+  text-shadow: 0 0 5px #0088FF;
+}
+#market-search-box {
+  min-width: 200px;
+}
+#market-search-label {
+  text-align:right;
+  padding-top: 3px;
+}
+.sidebar, .sidebar-divider {
+  text-align: left;
+  margin: 5px;
+  border-style: solid;
+  border-width: thick;
+  border-color: #22aaff;
+  border-radius: 6px;
+  padding: 5px;
+  height: 100%;
+}
+.sidebar-divider {
+  margin-left: -5px;
+  margin-right: -5px;
+  border-radius: 0px;
+  border-style: solid none none none;
+  padding: 0px;
+  height: 0%;
+}
+input[type=checkbox]:not(old),
+input[type=radio]:not(old){
+  width: 2em;
+  margin: 0;
+  padding: 0;
+  font-size: 1em;
+  opacity: 0;
+}
+input[type=checkbox]:not(old) + label,
+input[type=radio   ]:not(old) + label{
+  display      : inline-block;
+  margin-left  : -2em;
+  margin-top   : 0.25em;
+  margin-bottom: 0.25em;
+  line-height  : 1em;
+}
+input[type=checkbox]:not(old) + label > span,
+input[type=radio   ]:not(old) + label > span{
+  display          : inline-block;
+  width            : 0.875em;
+  height           : 0.875em;
+  margin           : 0em 0.5em 0em 0.25em;
+  border           : 0.0625em solid #0000ff;
+  border-radius    : 1em;
+  background       : #ffffff;
+  vertical-align   : bottom;
+  transition: background 0.25s linear;
+}
+input[type=checkbox]:not(old):checked + label > span,
+input[type=radio   ]:not(old):checked + label > span{
+  background : #22aaff;
+}
+
+
