@@ -34,8 +34,8 @@ import { Component, OnInit } from '@angular/core';
   `
 })
 
-export class GraphComponent{
-  constructor() {
+export class GraphComponent implements OnInit{
+  ngOnInit() {
     this.options = {
       title: {
             text: 'Fruit Consumption'
@@ -53,7 +53,7 @@ export class GraphComponent{
           data: [1, 0, 4]
       }, {
           name: 'John',
-          data: [5, 7, 3]
+          data: [5, 10, 3]
       }]
     };
   }
