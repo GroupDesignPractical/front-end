@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="myModule">
+<html>
   <head>
     <!-- Doesn't load from node_modules! -->
     <!-- Set the base href -->
@@ -16,18 +16,18 @@
     <!-- Update these package versions as needed -->
     <script src="https://unpkg.com/zone.js@0.7.4?main=browser"></script>
     <script src="https://unpkg.com/systemjs@0.19.39/dist/system.src.js"></script>
-    <script src="../node_modules/angular/angular.js"></script>
+    <!-- <script src="../node_modules/angular/angular.js"></script> -->
     <!-- This SystemJS configuration loads umd packages from the web -->
-    <script src="systemjs.config.server.js?v=16"></script>
+    <script src="systemjs.config.server.js?v=20"></script>
     <script>
       System.import('main.js')
             .catch(function(err){ console.error(err); });
     </script>
-    <script type="text/javascript" src="jquery-3.2.0.min.js"></script>
-    <script type="text/javascript" src="highcharts/highstock.js"></script>
-    <!--<script type="text/javascript" src="highcharts-ng.js"></script>-->
+    <!-- <script type="text/javascript" src="jquery-3.2.0.min.js"></script> -->
+    <!-- <script type="text/javascript" src="highcharts/highstock.js"></script> -->
+    <!--<script type="text/javascript" src="highcharts-ng.js"></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
-    <script type="text/javascript" src="graph-loader.js?v=2"></script>
+    <script type="text/javascript" src="graph-loader.js?v=2"></script>-->
   </head>
   <body>
     <div class="pure-g" id="title-grid-row">
@@ -62,13 +62,9 @@
         </ng-time-period>
       </div>
       <div class="pure-u-1 pure-u-md-2-3">
-        <div ng-controller="graph-controller">
-            <div class="sidebar">
-              <div id="graph-container">
-                Loading graph...
-              </div>
-            </div>
-        </div>
+        <graph-comp>
+          Load graph again...
+        </graph-comp>
       </div>
       <div class="pure-u-1 pure-u-md-1-6">
         <ng-display-series>

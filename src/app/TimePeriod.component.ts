@@ -1,8 +1,5 @@
-import { Component } from '@angular/core';
-export class TimePeriod {
-  numMonths: number;
-  description: string;
-}
+import { Component, OnInit } from '@angular/core';
+import { TimePeriod } from './time-period';
 
 const PERIODS: TimePeriod[] = [
   { numMonths: 60, description: '5 years' },
@@ -19,15 +16,23 @@ const PERIODS: TimePeriod[] = [
         <div class="sidebar-divider"></div>
         <form class="pure-form radio-section">
           <div class="radio-container" *ngFor="let period of periods">
-            <input id="{{period.numMonths}}" type="radio" name="period-radios" value="{{period.numMonths}}">
-            <label for="{{period.numMonths}}">
+            <input id="{{period}}" type="radio" name="period-radios" value="{{period}}" [checked]="period === selectedPeriod" (change)="onChange(period)">
+            <label for="{{period}}">
               <span><span></span></span>{{period.description}}
             </label>
           </div>
         </form>
+        {{selectedPeriod.numMonths}}
       </div>
   `
 })
-export class TimePeriodComponent {
+export class TimePeriodComponent implements OnInit {
   periods = PERIODS;
+  selectedPeriod: TimePeriod;
+  ngOnInit(): void {
+    this.selectedPeriod = PERIODS[0];
+  }
+  onChange(period: TimePeriod): void {
+    this.selectedPeriod = period;
+  }
 }
