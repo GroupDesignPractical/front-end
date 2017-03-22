@@ -37,9 +37,23 @@ import { Component, OnInit } from '@angular/core';
 export class GraphComponent{
   constructor() {
     this.options = {
-      title : { text : 'simple chart' },
+      title: {
+            text: 'Fruit Consumption'
+      },
+      xAxis: {
+          categories: ['Apples', 'Bananas', 'Oranges']
+      },
+      yAxis: {
+          title: {
+              text: 'Fruit eaten'
+          }
+      },
       series: [{
-        data: [29.9, 71.5, 106.4, 129.2],
+          name: 'Jane',
+          data: [1, 0, 4]
+      }, {
+          name: 'John',
+          data: [5, 7, 3]
       }]
     };
   }
