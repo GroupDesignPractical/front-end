@@ -1,8 +1,5 @@
-import { Component } from '@angular/core';
-export class TimePeriod {
-  numMonths: number;
-  description: string;
-}
+import { Component, AfterContentInit, Output, EventEmitter } from '@angular/core';
+import { TimePeriod } from './time-period';
 
 const PERIODS: TimePeriod[] = [
   { numMonths: 60, description: '5 years' },
@@ -12,14 +9,14 @@ const PERIODS: TimePeriod[] = [
 ];
 
 @Component({
-  selector: 'ng-time-period',
+  selector: 'time-period',
   template: `
       <div class="sidebar">
         Time Period
         <div class="sidebar-divider"></div>
         <form class="pure-form radio-section">
           <div class="radio-container" *ngFor="let period of periods">
-            <input id="{{period.numMonths}}" type="radio" name="period-radios" value="{{period.numMonths}}">
+            <input id="{{period.numMonths}}" type="radio" name="period-radios" value="{{period.numMonths}}" [checked]="period === selectedPeriod" (change)="onChange(period)">
             <label for="{{period.numMonths}}">
               <span><span></span></span>{{period.description}}
             </label>
@@ -28,6 +25,16 @@ const PERIODS: TimePeriod[] = [
       </div>
   `
 })
-export class TimePeriodComponent {
+export class TimePeriodComponent implements AfterContentInit {
   periods = PERIODS;
+  selectedPeriod: TimePeriod;
+  @Output() sPeriod = new EventEmitter();
+  ngAfterContentInit(): void {
+    this.selectedPeriod = PERIODS[3];
+    this.sPeriod.emit(this.selectedPeriod);
+  }
+  onChange(period: TimePeriod): void {
+    this.selectedPeriod = period;
+    this.sPeriod.emit(this.selectedPeriod);
+  }
 }

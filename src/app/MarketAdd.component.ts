@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 @Component({
-  selector: 'ng-market-add',
+  selector: 'market-add',
   template: `
       <div class="pure-g">
         <div class="pure-u-1 pure-u-md-3-24" id="market-search-label">

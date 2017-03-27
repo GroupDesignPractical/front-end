@@ -9,7 +9,7 @@ const MARKETS: String[] = [
 ];
 
 @Component({
-  selector: 'ng-suggested-markets',
+  selector: 'suggested-markets',
   template: `
       <div class="pure-g">
         <div class="pure-u-1 pure-u-md-4-24">

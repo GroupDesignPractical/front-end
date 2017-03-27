@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="myModule">
+<html>
   <head>
     <!-- Doesn't load from node_modules! -->
     <!-- Set the base href -->
@@ -7,7 +7,7 @@
     <title>ENTER NAME HERE</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="styles.css?v=58">
+    <link rel="stylesheet" href="styles.css?v=101">
     <link rel="stylesheet" href="/pure/pure.css">
     <link rel="stylesheet" href="/pure/grids-responsive-min.css">
     <link rel="icon" href="GDP.ico">
@@ -16,65 +16,16 @@
     <!-- Update these package versions as needed -->
     <script src="https://unpkg.com/zone.js@0.7.4?main=browser"></script>
     <script src="https://unpkg.com/systemjs@0.19.39/dist/system.src.js"></script>
-    <script src="../node_modules/angular/angular.js"></script>
     <!-- This SystemJS configuration loads umd packages from the web -->
-    <script src="systemjs.config.server.js?v=16"></script>
+    <script src="systemjs.config.server.js?v=22"></script>
     <script>
       System.import('main.js')
             .catch(function(err){ console.error(err); });
     </script>
-    <script type="text/javascript" src="jquery-3.2.0.min.js"></script>
-    <script type="text/javascript" src="highcharts/highstock.js"></script>
-    <!--<script type="text/javascript" src="highcharts-ng.js"></script>-->
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
-    <script type="text/javascript" src="graph-loader.js?v=2"></script>
   </head>
   <body>
-    <div class="pure-g" id="title-grid-row">
-      <div class="pure-u-1">
-        <h1 id="title-text">Enter Name Here</h1>
-      </div>
-    </div>
-    <div class="pure-g" id="search-bar-grid-row">
-      <div class="pure-u-1 pure-u-md-1-6"></div>
-      <div class="pure-u-1 pure-u-md-2-3">
-        <ng-market-add>
-          Loading market search...
-        </ng-market-add>
-      </div>
-      <div class="pure-u-1 pure-u-md-1-6"></div>
-    </div>
-
-    <div class="pure-g" id="suggested-markets-grid-row">
-      <div class="pure-u-1 pure-u-md-1-6"></div>
-      <div class="pure-u-1 pure-u-md-2-3">
-        <ng-suggested-markets>
-            Loading suggested markets...
-        </ng-suggested-markets>
-      </div>
-      <div class="pure-u-1 pure-u-md-1-6"></div>
-    </div>
-
-    <div class="pure-g" id="main-grid-row">
-      <div class="pure-u-1 pure-u-md-1-6">
-        <ng-time-period>
-            Loading time period selection...
-        </ng-time-period>
-      </div>
-      <div class="pure-u-1 pure-u-md-2-3">
-        <div ng-controller="graph-controller">
-            <div class="sidebar">
-              <div id="graph-container">
-                Loading graph...
-              </div>
-            </div>
-        </div>
-      </div>
-      <div class="pure-u-1 pure-u-md-1-6">
-        <ng-display-series>
-            Loading series selection...
-        </ng-display-series>
-      </div>
-    </div>
+    <my-app>
+      Loading app...
+    </my-app>
   </body>
 </html>
