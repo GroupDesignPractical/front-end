@@ -4,7 +4,6 @@ import { FormsModule }          from '@angular/forms';
 import { MarketAddComponent }     from './MarketAdd.component';
 import { MarketSuggestComponent } from './MarketSuggest.component';
 import { TimePeriodComponent } from './TimePeriod.component';
-import { GraphComponent } from './Graph.component';
 import { SeriesComponent } from './Series.component';
 @NgModule({
   imports: [
@@ -15,9 +14,8 @@ import { SeriesComponent } from './Series.component';
     MarketAddComponent,
     MarketSuggestComponent,
     TimePeriodComponent,
-    GraphComponent,
     SeriesComponent
   ],
-  bootstrap: [ MarketAddComponent, MarketSuggestComponent, TimePeriodComponent, GraphComponent, SeriesComponent ]
+  bootstrap: [ MarketAddComponent, MarketSuggestComponent, TimePeriodComponent, SeriesComponent ]
 })
 export class AppModule { }

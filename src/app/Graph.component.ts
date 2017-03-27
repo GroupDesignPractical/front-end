@@ -1,14 +1,10 @@
-import { Component } from '@angular/core';
-@Component({
-  selector: 'ng-graph',
-  template: `
-      <div class="sidebar">
-        <div id="graph-container" style="width:100%; height: 400px:"></div>
-      </div>
-      <script>
-$(function () { 
-    var myChart = Highcharts.chart('graph-container', {
+/* /// <reference path="../highcharts/highstock.d.ts" />
+/// <reference path="../highcharts/highcharts.d.ts" />
+*/
+
+var options = {
         chart: {
+            /* renderTo: 'graph-container', */
             type: 'bar'
         },
         title: {
@@ -29,10 +25,18 @@ $(function () {
             name: 'John',
             data: [5, 7, 3]
         }]
-    });
-});
-      </script>
+};
+
+
+import { Component, OnInit } from '@angular/core';
+@Component({
+  selector: 'ng-graph',
+  template: `
+      <div class="sidebar">
+      </div>
   `
 })
-export class GraphComponent {
+
+export class GraphComponent{
+
 }

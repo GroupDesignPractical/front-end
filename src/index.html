@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="myModule">
   <head>
     <!-- Doesn't load from node_modules! -->
     <!-- Set the base href -->
@@ -25,6 +25,9 @@
     </script>
     <script type="text/javascript" src="jquery-3.2.0.min.js"></script>
     <script type="text/javascript" src="highcharts/highstock.js"></script>
+    <!--<script type="text/javascript" src="highcharts-ng.js"></script>-->
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+    <script type="text/javascript" src="graph-loader.js?v=2"></script>
   </head>
   <body>
     <div class="pure-g" id="title-grid-row">
@@ -59,9 +62,13 @@
         </ng-time-period>
       </div>
       <div class="pure-u-1 pure-u-md-2-3">
-        <ng-graph>
-            Loading graph...
-        </ng-graph>
+        <div ng-controller="graph-controller">
+            <div class="sidebar">
+              <div id="graph-container">
+                Loading graph...
+              </div>
+            </div>
+        </div>
       </div>
       <div class="pure-u-1 pure-u-md-1-6">
         <ng-display-series>
