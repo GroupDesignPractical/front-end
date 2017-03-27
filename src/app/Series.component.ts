@@ -20,7 +20,7 @@ export class SafeHtmlPipe implements PipeTransform {
         <p>Markets</p>
         <!-- <form class="pure-form radio-section"> -->
           <div *ngFor="let market of markets">
-            <input id="{{market.UID}}" type="checkbox" name="market-checkboxes" value="{{market.UID}}" [checked]="market.selected" (change)="onChange({UID: market.UID, selected: $event.target.checked})">
+            <input id="{{market.UID}}" type="checkbox" name="market-checkboxes" value="{{market.UID}}" [checked]="market.selected" (change)="onChange({UID: market.UID, index: market.index, selected: $event.target.checked})">
             <label for="{{market.UID}}">
               <span class="{{'market-color-' + market.index + ' market'}}"><span></span></span>{{market.name}}
             </label>
@@ -30,7 +30,7 @@ export class SafeHtmlPipe implements PipeTransform {
         <p>Trends</p>
         <form class="pure-form radio-section">
           <div *ngFor="let trend of trends">
-            <input id="{{trend.UID}}" type="checkbox" name="trend-checkboxes" value="{{trend.UID}}" [checked]="trend.selected" (change)="onChange({UID: trend.UID, selected: $event.target.checked})">
+            <input id="{{trend.UID}}" type="checkbox" name="trend-checkboxes" value="{{trend.UID}}" [checked]="trend.selected" (change)="onChange({UID: trend.UID, index: trend.index, selected: $event.target.checked})">
             <label for="{{trend.UID}}">
               <span class="{{'trend-color-' + trend.index + ' trend'}}"><span></span></span>{{trend.name}}
             </label>
@@ -59,10 +59,10 @@ export class SeriesComponent {
   articles: any = [
     {UID: 3673, name: 'BBC News', index: 1, selected: false},
     {UID: 3048, name: 'Reuters', index: 2, selected: false},
-    {UID: 3673, name: 'BBC News', index: 3, selected: false},
-    {UID: 3673, name: 'BBC News', index: 4, selected: false},
-    {UID: 3673, name: 'BBC News', index: 5, selected: false},
-    {UID: 3673, name: 'BBC News', index: 6, selected: false}
+    {UID: 3673, name: 'Telegraph', index: 3, selected: false},
+    {UID: 3673, name: 'Guardian', index: 4, selected: false},
+    {UID: 3673, name: 'Daily Mail', index: 5, selected: false},
+    {UID: 3673, name: 'ABC', index: 6, selected: false}
   ];
 
   @Output() sChange = new EventEmitter();
@@ -70,15 +70,15 @@ export class SeriesComponent {
     /* Set first source of each type to be selected and emit this as a change. */
     if (this.markets.length > 0){
       this.markets[0].selected = true;
-      this.sChange.emit({UID: this.markets[0].UID, selected: true});
+      this.sChange.emit({UID: this.markets[0].UID, index: this.markets[0].index, selected: true});
     }
     if (this.trends.length > 0){
       this.trends[0].selected = true;
-      this.sChange.emit({UID: this.trends[0].UID, selected: true});
+      this.sChange.emit({UID: this.trends[0].UID, index: this.trends[0].index, selected: true});
     }
     if (this.articles.length > 0){
       this.articles[0].selected = true;
-      this.sChange.emit({UID: this.articles[0].UID, selected: true});
+      this.sChange.emit({UID: this.articles[0].UID, index: this.articles[0].index, selected: true});
     }
   }
   onChange(sChange: SeriesChange): void {
