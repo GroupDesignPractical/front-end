@@ -1,61 +1,32 @@
-/*var options = {
-        chart: {
-            renderTo: 'graph-container2',
-            type: 'bar'
-        },
-        title: {
-            text: 'Fruit Consumption'
-        },
-        xAxis: {
-            categories: ['Apples', 'Bananas', 'Oranges']
-        },
-        yAxis: {
-            title: {
-                text: 'Fruit eaten'
-            }
-        },
-        series: [{
-            name: 'Jane',
-            data: [1, 0, 4]
-        }, {
-            name: 'John',
-            data: [5, 7, 3]
-        }]
-};*/
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { ChartModule } from 'angular2-highcharts';
 
-
-import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'graph-comp',
   template: `
       <div class="sidebar">
-        <chart [options]="options"></chart>
+        <div class="pure-g">
+          <div class="pure-u-1">
+            <chart [options]="options" (load)="saveInstance($event.context)"></chart>
+          </div>
+        </div>
       </div>
   `
 })
 
-export class GraphComponent implements OnInit{
-  ngOnInit() {
-    this.options = {
-      title: {
-            text: 'Fruit Consumption'
-      },
-      xAxis: {
-          categories: ['Apples', 'Bananas', 'Oranges']
-      },
-      yAxis: {
-          title: {
-              text: 'Fruit eaten'
-          }
-      },
-      series: [{
-          name: 'Jane',
-          data: [1, 0, 4]
-      }, {
-          name: 'John',
-          data: [5, 10, 3]
-      }]
-    };
+export class GraphComponent implements OnChanges{
+  @Input() options: Object;
+  @Input() numMonths: number;
+  chart: any;
+  saveInstance(chartInstance) {
+    this.chart = chartInstance;
   }
-  options: Object;
+
+  ngOnChanges(changes: SimpleChanges) {
+    try {
+      this.chart.setTitle({ text: null }, { text: '' + this.numMonths });
+    }
+    catch(err){}
+    finally{};
+  }
 }

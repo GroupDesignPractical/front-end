@@ -65,7 +65,73 @@ input[type=radio   ]:not(old) + label > span{
 }
 input[type=checkbox]:not(old):checked + label > span,
 input[type=radio   ]:not(old):checked + label > span{
-  background : #22aaff;
+  background : #000000;
 }
-
-
+input[type=checkbox]:not(old) + label > span.article-shape-1 {
+  width: 0;
+  height: 0;
+  border-left: 0.5em solid transparent;
+  border-right: 0.5em solid transparent;
+  border-radius: 0em;
+  border-bottom: 1em solid #0000FF;
+  border-top: 0em;
+}
+input[type=checkbox]:not(old):checked + label > span.article-shape-1 {
+  width: 0;
+  height: 0;
+  border-left: 0.5em solid transparent;
+  border-right: 0.5em solid transparent;
+  border-radius: 0em;
+  border-bottom: 1em solid #0000FF;
+  border-top: 0em;
+}
+span.article-shape-1: before {
+  width: 0;
+  height: 0;
+  border-left: 0.5em solid transparent;
+  border-right: 0.5em solid transparent;
+  border-radius: 0em;
+  border-bottom: 1em solid #FF0000;
+  border-top: 0em;
+}
+(input[type=checkbox]:not(old):checked + label > span.article-shape-1): before {
+  border: 0em;
+}
+input[type=checkbox]:not(old):checked + label > span.market-color-1 {
+  background : #FFCC00;
+}
+input[type=checkbox]:not(old):checked + label > span.market-color-2 {
+  background : #FF66FF;
+}
+input[type=checkbox]:not(old):checked + label > span.market-color-3 {
+  background : #66FF33;
+}
+input[type=checkbox]:not(old):checked + label > span.market-color-4 {
+  background : #66FFFF;
+}
+input[type=checkbox]:not(old):checked + label > span.market-color-5 {
+  background : #FF3300;
+}
+input[type=checkbox]:not(old):checked + label > span.trend {
+  background : #AAAAAA;
+}
+input[type=checkbox]:not(old):checked + label > span.trend-color-1 {
+  background : #0033CC;
+}
+input[type=checkbox]:not(old):checked + label > span.trend-color-2 {
+  background : #006600;
+}
+input[type=checkbox]:not(old):checked + label > span.trend-color-3 {
+  background : #660066;
+}
+input[type=checkbox]:not(old):checked + label > span.trend-color-4 {
+  background : #996633;
+}
+input[type=checkbox]:not(old):checked + label > span.trend-color-5 {
+  background : #CCCC00;
+}
+chart {
+  width: auto;
+  text-align: center;
+  display: block;
+}
