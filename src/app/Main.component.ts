@@ -38,7 +38,7 @@ import { TimePeriodComponent } from './TimePeriod.component';
         </time-period>
       </div>
       <div class="pure-u-1 pure-u-md-2-3">
-        <graph-comp [numMonths]="selectedPeriod" [options]="options">
+        <graph-comp [periodEndUTC]="endDateUTC" [numMonths]="selectedPeriod" [options]="options">
           Load graph...
         </graph-comp>
       </div>
@@ -46,6 +46,7 @@ import { TimePeriodComponent } from './TimePeriod.component';
         <display-series (sChange)="handleSeriesChangeEvent($event)">
             Loading series selection...
         </display-series>
+        {{ endDate }}
       </div>
     </div>
   `
@@ -54,12 +55,15 @@ import { TimePeriodComponent } from './TimePeriod.component';
 export class MainComponent implements OnInit{
   ngOnInit() {
     this.selectedPeriod = 0;
+    var endDate = new Date();
+    this.endDateUTC = endDate.valueOf()
     this.options = {
       title: {
             text: null
       },
       chart: {
-        height: "500px"
+        height: "500px",
+        showAxis: true
       },
       credits: {
         text: ''
@@ -68,7 +72,7 @@ export class MainComponent implements OnInit{
         enabled: false
       },
       xAxis: {
-          categories: ['Apples', 'Bananas', 'Oranges', 'Grapes']
+          type: 'datetime'
       },
       yAxis: [{
           title: {
@@ -84,7 +88,7 @@ export class MainComponent implements OnInit{
       ],
       series: [{
           name: 'Jane',
-          data: [1, 0, 4, 5]
+          /*data: [[Date.UTC(2017,2,1),1], [Date.UTC(2017,2,2),0], [Date.UTC(2017,2,3),4], [Date.UTC(2017,2,4),5]]*/
       }],
       
     };
@@ -97,4 +101,5 @@ export class MainComponent implements OnInit{
   }
   options: Object;
   selectedPeriod: number;
+  endDateUTC: number;
 }
