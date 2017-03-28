@@ -6,7 +6,7 @@ import { SeriesChange } from './series-change';
 export class SafeHtmlPipe implements PipeTransform {
   constructor(private sanitized: DomSanitizer) {}
   transform(value) {
-    console.log(this.sanitized.bypassSecurityTrustHtml(value));
+    //console.log(this.sanitized.bypassSecurityTrustHtml(value));
     return this.sanitized.bypassSecurityTrustHtml(value);
   }
 }
@@ -38,7 +38,7 @@ export class SafeHtmlPipe implements PipeTransform {
         </form>
         <div class="sidebar-divider"></div>
         <p>News Articles</p>
-          <div *ngFor="let article of articles" (click)="article.selected = !article.selected">
+          <div *ngFor="let article of articles" (click)="article.selected = !article.selected" (mouseenter)="article.hovered = true" (mouseleave)="article.hovered = false">
             <div style="float: left; padding-left: 8px;" [innerHTML]="getCheckBoxElement(article.index) | safeHtml"></div>
             <div style="margin-left: 31px; margin-bottom: -10px;">{{ article.name }}</div><br>
           </div>
@@ -57,12 +57,12 @@ export class SeriesComponent {
   ];
 
   articles: any = [
-    {UID: 3673, name: 'BBC News', index: 1, selected: false},
-    {UID: 3048, name: 'Reuters', index: 2, selected: false},
-    {UID: 3673, name: 'Telegraph', index: 3, selected: false},
-    {UID: 3673, name: 'Guardian', index: 4, selected: false},
-    {UID: 3673, name: 'Daily Mail', index: 5, selected: false},
-    {UID: 3673, name: 'ABC', index: 6, selected: false}
+    {UID: 3673, name: 'BBC News', index: 1, selected: false, hovered: false},
+    {UID: 3048, name: 'Reuters', index: 2, selected: false, hovered: false},
+    {UID: 3673, name: 'Telegraph', index: 3, selected: false, hovered: false},
+    {UID: 3673, name: 'Guardian', index: 4, selected: false, hovered: false},
+    {UID: 3673, name: 'Daily Mail', index: 5, selected: false, hovered: false},
+    {UID: 3673, name: 'ABC', index: 6, selected: false, hovered: false}
   ];
 
   @Output() sChange = new EventEmitter();
@@ -107,9 +107,13 @@ export class SeriesComponent {
         htmlString += '<circle cx="8.5" cy="8.5" r="7.5" stroke="blue" stroke-width="0.8" fill=';
     };
     if (this.isArticleSelected(index)) {
-      htmlString += '"url(#RGgrad)" />\n</svg>';
+      htmlString += '"url(#RGgrad)" style="opacity: 1" />\n</svg>';
     } else {
-      htmlString += '"none" />\n</svg>';
+      if (this.isArticleHovered(index)) {
+        htmlString += '"url(#RGgrad)" style="opacity: 0.5" />\n</svg>';
+      } else {
+        htmlString += '"none" style="opacity: 1" />\n</svg>';
+      };
     }
     return htmlString;
   };
@@ -122,4 +126,13 @@ export class SeriesComponent {
     }
     return false;
   };  
+
+  isArticleHovered(index: number): boolean {
+    for (var i = 0; i < this.articles.length; i++) {
+      if ((this.articles[i].index == index) && (this.articles[i].hovered)) {
+        return true;
+      }
+    }
+    return false;
+  };
 }
