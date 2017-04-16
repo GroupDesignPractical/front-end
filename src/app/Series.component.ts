@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, Pipe, PipeTransform} from '@angular/core';
+import { Component, OnInit, AfterViewInit, Output, EventEmitter, Pipe, PipeTransform} from '@angular/core';
 import { BrowserModule, DomSanitizer } from '@angular/platform-browser';
 import { SeriesChange } from './series-change';
 
@@ -20,7 +20,7 @@ export class SafeHtmlPipe implements PipeTransform {
         <p>Markets</p>
         <!-- <form class="pure-form radio-section"> -->
           <div *ngFor="let market of markets">
-            <input id="{{market.UID}}" type="checkbox" name="market-checkboxes" value="{{market.UID}}" [checked]="market.selected" (change)="onChange({UID: market.UID, index: market.index, selected: $event.target.checked})">
+            <input id="{{market.UID}}" type="checkbox" name="market-checkboxes" value="{{market.UID}}" [checked]="market.selected" (change)="onChange({UID: market.UID, index: market.index, selected: $event.target.checked, name: market.name, color: market.color})">
             <label for="{{market.UID}}">
               <span class="{{'market-color-' + market.index + ' market'}}"><span></span></span>{{market.name}}
             </label>
@@ -30,7 +30,7 @@ export class SafeHtmlPipe implements PipeTransform {
         <p>Trends</p>
         <form class="pure-form radio-section">
           <div *ngFor="let trend of trends">
-            <input id="{{trend.UID}}" type="checkbox" name="trend-checkboxes" value="{{trend.UID}}" [checked]="trend.selected" (change)="onChange({UID: trend.UID, index: trend.index, selected: $event.target.checked})">
+            <input id="{{trend.UID}}" type="checkbox" name="trend-checkboxes" value="{{trend.UID}}" [checked]="trend.selected" (change)="onChange({UID: trend.UID, index: trend.index, selected: $event.target.checked, name: trend.name, color: trend.color})">
             <label for="{{trend.UID}}">
               <span class="{{'trend-color-' + trend.index + ' trend'}}"><span></span></span>{{trend.name}}
             </label>
@@ -38,47 +38,47 @@ export class SafeHtmlPipe implements PipeTransform {
         </form>
         <div class="sidebar-divider"></div>
         <p>News Articles</p>
-          <div *ngFor="let article of articles" (click)="article.selected = !article.selected" (mouseenter)="article.hovered = true" (mouseleave)="article.hovered = false">
+          <div *ngFor="let article of articles" (click)="articleClicked(article)" (mouseenter)="article.hovered = true" (mouseleave)="article.hovered = false">
             <div style="float: left; padding-left: 8px;" [innerHTML]="getCheckBoxElement(article.index) | safeHtml"></div>
             <div style="margin-left: 31px; margin-bottom: -10px;">{{ article.name }}</div><br>
           </div>
       </div>
   `
 })
-export class SeriesComponent {
+export class SeriesComponent implements AfterViewInit{
   markets: any = [
-    {UID: 1002, name: 'FTSE 100', index: 1, selected: false},
-    {UID: 1043, name: 'Dow Jones', index: 2, selected: false},
-    {UID: 1434, name: 'Crude Oil', index: 3, selected: false}
+    {UID: 1002, name: 'FTSE 100', index: 1, selected: false, color: '#FFCC00'},
+    {UID: 1043, name: 'Dow Jones', index: 2, selected: false, color: '#FF66FF'},
+    {UID: 1434, name: 'Crude Oil', index: 3, selected: false, color: '#66FF33'}
   ];
 
   trends: any = [
-    {UID: 2323, name: 'Twitter', index: 1, selected: false}
+    {UID: 2323, name: 'Twitter', index: 1, selected: false, color: '#0033CC'}
   ];
 
   articles: any = [
-    {UID: 3673, name: 'BBC News', index: 1, selected: false, hovered: false},
-    {UID: 3048, name: 'Reuters', index: 2, selected: false, hovered: false},
-    {UID: 3673, name: 'Telegraph', index: 3, selected: false, hovered: false},
-    {UID: 3673, name: 'Guardian', index: 4, selected: false, hovered: false},
-    {UID: 3673, name: 'Daily Mail', index: 5, selected: false, hovered: false},
-    {UID: 3673, name: 'ABC', index: 6, selected: false, hovered: false}
+    {UID: 3673, name: 'BBC News', index: 1, selected: false, hovered: false, shape: 3},
+    {UID: 3048, name: 'Reuters', index: 2, selected: false, hovered: false, shape: 4},
+    {UID: 3673, name: 'Telegraph', index: 3, selected: false, hovered: false, shape: 5},
+    {UID: 3673, name: 'Guardian', index: 4, selected: false, hovered: false, shape: 6},
+    {UID: 3673, name: 'Daily Mail', index: 5, selected: false, hovered: false, shape: 7},
+    {UID: 3673, name: 'ABC', index: 6, selected: false, hovered: false, shape: 0}
   ];
 
   @Output() sChange = new EventEmitter();
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
     /* Set first source of each type to be selected and emit this as a change. */
     if (this.markets.length > 0){
       this.markets[0].selected = true;
-      this.sChange.emit({UID: this.markets[0].UID, index: this.markets[0].index, selected: true});
+      this.sChange.emit({UID: this.markets[0].UID, index: this.markets[0].index, selected: true, color: this.markets[0].color, name: this.markets[0].name});
     }
     if (this.trends.length > 0){
       this.trends[0].selected = true;
-      this.sChange.emit({UID: this.trends[0].UID, index: this.trends[0].index, selected: true});
+      this.sChange.emit({UID: this.trends[0].UID, index: this.trends[0].index, selected: true, color: this.trends[0].color, name: this.trends[0].name});
     }
     if (this.articles.length > 0){
       this.articles[0].selected = true;
-      this.sChange.emit({UID: this.articles[0].UID, index: this.articles[0].index, selected: true});
+      this.sChange.emit({UID: this.articles[0].UID, index: this.articles[0].index, selected: true, shape: this.articles[0].shape, name: this.articles[0].name});
     }
   }
   onChange(sChange: SeriesChange): void {
@@ -135,4 +135,9 @@ export class SeriesComponent {
     }
     return false;
   };
+
+  articleClicked(article: any) {
+    article.selected = ! article.selected;
+    this.onChange({UID: article.UID, index: article.index, selected: article.selected, name: article.name, shape: article.shape, color:'#000000', type: 'article'});
+  }
 }

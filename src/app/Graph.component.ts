@@ -1,5 +1,6 @@
 import { Component, Input, OnChanges, SimpleChanges, OnInit } from '@angular/core';
 import { ChartModule } from 'angular2-highcharts';
+import { SeriesChange } from './series-change';
 
 @Component({
   selector: 'graph-comp',
@@ -31,6 +32,8 @@ export class GraphComponent implements OnChanges, OnInit{
   @Input() numMonths: number;
   @Input() periodEndUTC: number;
   chart: any;
+  seriesTypes: any;
+  len: number;
   saveInstance(chartInstance) {
     this.chart = chartInstance;
   }
@@ -43,6 +46,8 @@ export class GraphComponent implements OnChanges, OnInit{
     var months = peDate.getUTCMonth();
     var days = this.lastDayOfMonth(months, years);
     this.periodEndUTC = Date.UTC(years, months, days);
+    this.seriesTypes = {market: 0, trend: 1, news: 2};
+    this.len = 1000;
   }
   ngOnChanges(changes: SimpleChanges) {
     try {
@@ -134,5 +139,97 @@ export class GraphComponent implements OnChanges, OnInit{
     if ((year % 100) == 0) return false;
     if ((year % 4) == 0) return true;
     return false;
+  }
+
+  MarketChange(market: SeriesChange){
+	market.type = this.seriesTypes.market;
+	if(market.selected){
+		this.chart.addSeries({
+			name: market.name,
+			data: this.GetMarketData(market),
+			color: market.color,
+			id: market.UID,
+			zIndex: 1,
+			seriestype: market.type
+		});
+	} else {
+		var a = this.chart.series.filter(function(s){return (s.name == market.name && s.options.id == market.UID && s.options.seriestype == market.type)});
+		a.forEach(function(x){x.remove()});
+	};
+  }
+
+  GetMarketData(market: SeriesChange) {
+    return this.GetRanLine(this.len);
+  }
+
+  TrendChange(trend: SeriesChange){
+	trend.type = this.seriesTypes.trend;
+	if(trend.selected){
+		this.chart.addSeries({
+			name: trend.name,
+			data: this.GetTrendData(trend),
+			color : trend.color,
+			id : trend.UID,
+			yAxis : 1, 
+			type : "column",
+			zIndex : 0,
+			seriestype: trend.type
+		});
+	} else {
+		var a = this.chart.series.filter(function(s){return (s.name == trend.name && s.options.id == trend.UID && s.options.seriestype == trend.type)});
+		a.forEach(function(x){x.remove()});
+	};
+  }
+
+  GetTrendData(trend: SeriesChange) {
+    return this.GetRanPoint(this.len);
+  }
+
+  GetNewsData(article: SeriesChange) {
+    return this.GetRanPoint(this.len);
+  }
+
+  NewsChange(news: SeriesChange){
+	news.type = this.seriesTypes.news;
+        // Shapes are supplied with number of points, which must be converted to array index
+        if (news.shape >= 3){
+          news.shape -= 2;
+        }
+	if(news.selected){
+		this.chart.addSeries({
+			name: news.name,
+			data: this.GetNewsData(news),
+			id : news.UID,
+			yAxis : 1, 
+			type : "scatter",
+			zIndex : 1,
+			marker: {symbol:["circle", "triangle", "square", "diamond","triangle-down"][news.shape]},
+			seriestype:news.type
+		});
+	} else {
+		var a = this.chart.series.filter(function(s){return (s.name == news.name && s.options.id == news.UID && s.options.seriestype == news.type)});
+		a.forEach(function(x){x.remove()});
+	};
+  }
+
+  GetRanLine(len: number){
+	var ranLine = [];
+	var temp = Math.random() * 100;
+	for(var i = 0; i < len; i++){
+	 temp += Math.random()*10;
+	 temp -= 5;
+	 ranLine.push([Date.UTC(2017,0,(1+i)), temp]);
+	};
+	return ranLine;
+  }
+
+  GetRanPoint(len: number){
+	var ranPoints = [];
+	var temp = 0;
+	for(var i = 0; i < len; i++){
+	 temp = Math.random()*100;
+	 ranPoints.push([Date.UTC(2017,0,(1+i)), temp]);
+	};
+	return ranPoints;
   }
 }
