@@ -69,7 +69,7 @@ export class SeriesComponent implements AfterViewInit, OnInit{
   constructor(private seriesService: SeriesService) {}
 
   ngOnInit(): void {
-    this.seriesService.getTrends().then(trends => this.trends = trends);
+    this.seriesService.getTrends().then(trends => alert(trends.toString()));
   }
 
   @Output() sChange = new EventEmitter();
