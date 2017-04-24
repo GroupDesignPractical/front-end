@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 
 import { TimePeriod } from './time-period';
 import { TimePeriodComponent } from './TimePeriod.component';
+import { GraphComponent } from './Graph.component';
+import { SeriesChange } from './series-change';
+import { AfterViewInit, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'my-app',
@@ -52,7 +55,20 @@ import { TimePeriodComponent } from './TimePeriod.component';
   `
 })
 
-export class MainComponent implements OnInit{
+export class MainComponent implements OnInit, AfterViewInit {
+
+  @ViewChild(GraphComponent)
+  private graphComponent: GraphComponent;
+
+  ngAfterViewInit() {
+
+  }
+
+  MarketChange(market: SeriesChange) { this.graphComponent.MarketChange(market); }
+  TrendChange(trend: SeriesChange) { this.graphComponent.TrendChange(trend); } 
+  NewsChange(news: SeriesChange) { this.graphComponent.NewsChange(news); }
+
+
   ngOnInit() {
     this.selectedPeriod = 0;
     var endDate = new Date();
@@ -76,28 +92,29 @@ export class MainComponent implements OnInit{
       },
       yAxis: [{
           title: {
-            text: 'Market Value'
+            text: 'Share Price'
           }
         },
         {
           title: {
-            text: 'Trend/Article Popularity' 
+            text: 'Popularity' 
           },
           opposite: true
         }
-      ],
-      series: [{
-          name: 'Jane',
-          /*data: [[Date.UTC(2017,2,1),1], [Date.UTC(2017,2,2),0], [Date.UTC(2017,2,3),4], [Date.UTC(2017,2,4),5]]*/
-      }],
-      
+      ]     
     };
   }
   handlePeriodChangeEvent(period) {
     this.selectedPeriod = period.numMonths;
   }
   handleSeriesChangeEvent(sChange) {
-
+    if (sChange.UID >= 3000){
+      this.graphComponent.NewsChange(sChange);
+    } else if (sChange.UID >= 2000){
+      this.graphComponent.TrendChange(sChange);
+    } else if (sChange.UID >= 1000){
+      this.graphComponent.MarketChange(sChange);
+    };
   }
   options: Object;
   selectedPeriod: number;
