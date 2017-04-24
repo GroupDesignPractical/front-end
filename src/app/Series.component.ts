@@ -4,6 +4,10 @@ import { SeriesChange } from './series-change';
 import { SeriesService } from './series.service';
 import { Stock, Trend, News } from './series';
 
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/operator/map';
+
 @Pipe({ name: 'safeHtml'})
 export class SafeHtmlPipe implements PipeTransform {
   constructor(private sanitized: DomSanitizer) {}
@@ -69,7 +73,9 @@ export class SeriesComponent implements AfterViewInit, OnInit{
   constructor(private seriesService: SeriesService) {}
 
   ngOnInit(): void {
-    this.seriesService.getTrends().then(trends => alert(trends.toString()));
+    this.seriesService.getTrends().subscribe(
+                                    trends => alert(trends.toString()),
+                                    error => console.error(error));
   }
 
   @Output() sChange = new EventEmitter();

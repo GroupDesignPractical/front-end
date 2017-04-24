@@ -2,7 +2,7 @@ import { NgModule, Pipe, PipeTransform }  from '@angular/core';
 import { BrowserModule }                  from '@angular/platform-browser';
 import { ChartModule }                    from 'angular2-highcharts';
 import { FormsModule }                    from '@angular/forms';
-import { HttpModule }                     from '@angular/http';
+import { HttpModule, JsonpModule }                     from '@angular/http';
 
 import { MainComponent } from './Main.component';
 import { MarketAddComponent }     from './MarketAdd.component';
@@ -29,6 +29,7 @@ export class SafeHtmlPipe implements PipeTransform {
     BrowserModule,
     FormsModule,
     HttpModule,
+    JsonpModule,
     ChartModule.forRoot(require('highcharts'))
   ],
   declarations: [
