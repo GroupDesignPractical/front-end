@@ -8,7 +8,7 @@ import { TimePeriodComponent } from './TimePeriod.component';
   template: `
     <div class="pure-g" id="title-grid-row">
       <div class="pure-u-1">
-        <h1 id="title-text">Enter Name Here</h1>
+        <h1 id="title-text">Market Junction</h1>
       </div>
     </div>
     <div class="pure-g" id="search-bar-grid-row">
