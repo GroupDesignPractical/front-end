@@ -4,7 +4,7 @@ import { Component } from '@angular/core';
   template: `
       <div class="pure-g">
         <div class="pure-u-1 pure-u-md-3-24" id="market-search-label">
-          <label>Add Market: </label>
+          <label>Add Stock: </label>
         </div>
         <div class="pure-u-1 pure-u-md-21-24">
           <div id="market-search-box">

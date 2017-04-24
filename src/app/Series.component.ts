@@ -17,7 +17,7 @@ export class SafeHtmlPipe implements PipeTransform {
       <div class="sidebar">
         Display Series       
         <div class="sidebar-divider"></div>
-        <p>Markets</p>
+        <p>Stocks</p>
         <!-- <form class="pure-form radio-section"> -->
           <div *ngFor="let market of markets">
             <input id="{{market.UID}}" type="checkbox" name="market-checkboxes" value="{{market.UID}}" [checked]="market.selected" (change)="onChange({UID: market.UID, index: market.index, selected: $event.target.checked, name: market.name, color: market.color})">
