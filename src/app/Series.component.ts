@@ -1,6 +1,8 @@
-import { Component, OnInit, AfterViewInit, Output, EventEmitter, Pipe, PipeTransform} from '@angular/core';
+import { Component, OnInit, AfterViewInit, Output, EventEmitter, Pipe, PipeTransform } from '@angular/core';
 import { BrowserModule, DomSanitizer } from '@angular/platform-browser';
 import { SeriesChange } from './series-change';
+import { SeriesService } from './series.service';
+import { Stock, Trend, News } from './series';
 
 @Pipe({ name: 'safeHtml'})
 export class SafeHtmlPipe implements PipeTransform {
@@ -43,18 +45,17 @@ export class SafeHtmlPipe implements PipeTransform {
             <div style="margin-left: 31px; margin-bottom: -10px;">{{ article.name }}</div><br>
           </div>
       </div>
-  `
+  `,
+  providers: [SeriesService]
 })
-export class SeriesComponent implements AfterViewInit{
+export class SeriesComponent implements AfterViewInit, OnInit{
   markets: any = [
     {UID: 1002, name: 'FTSE 100', index: 1, selected: false, color: '#FFCC00'},
     {UID: 1043, name: 'Dow Jones', index: 2, selected: false, color: '#FF66FF'},
     {UID: 1434, name: 'Crude Oil', index: 3, selected: false, color: '#66FF33'}
   ];
 
-  trends: any = [
-    {UID: 2323, name: 'Twitter', index: 1, selected: false, color: '#0033CC'}
-  ];
+  trends: Trend[];
 
   articles: any = [
     {UID: 3673, name: 'BBC News', index: 1, selected: false, hovered: false, shape: 3},
@@ -64,6 +65,12 @@ export class SeriesComponent implements AfterViewInit{
     {UID: 3673, name: 'Daily Mail', index: 5, selected: false, hovered: false, shape: 7},
     {UID: 3673, name: 'ABC', index: 6, selected: false, hovered: false, shape: 0}
   ];
+
+  constructor(private seriesService: SeriesService) {}
+
+  ngOnInit(): void {
+    this.seriesService.getTrends().then(trends => this.trends = trends);
+  }
 
   @Output() sChange = new EventEmitter();
   ngAfterViewInit(): void {

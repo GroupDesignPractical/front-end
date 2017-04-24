@@ -1,13 +1,18 @@
-import { NgModule, Pipe, PipeTransform }             from '@angular/core';
-import { BrowserModule }        from '@angular/platform-browser';
-import { ChartModule } from 'angular2-highcharts';
-import { FormsModule }          from '@angular/forms';
+import { NgModule, Pipe, PipeTransform }  from '@angular/core';
+import { BrowserModule }                  from '@angular/platform-browser';
+import { ChartModule }                    from 'angular2-highcharts';
+import { FormsModule }                    from '@angular/forms';
+import { HttpModule }                     from '@angular/http';
+
 import { MainComponent } from './Main.component';
 import { MarketAddComponent }     from './MarketAdd.component';
 import { MarketSuggestComponent } from './MarketSuggest.component';
 import { TimePeriodComponent } from './TimePeriod.component';
 import { SeriesComponent } from './Series.component';
 import { GraphComponent } from './Graph.component';
+
+import { SeriesService } from './series.service';
+
 import { DomSanitizer } from '@angular/platform-browser';
 
 @Pipe({ name: 'safeHtml'})
@@ -23,6 +28,7 @@ export class SafeHtmlPipe implements PipeTransform {
   imports: [
     BrowserModule,
     FormsModule,
+    HttpModule,
     ChartModule.forRoot(require('highcharts'))
   ],
   declarations: [
@@ -34,7 +40,8 @@ export class SafeHtmlPipe implements PipeTransform {
     GraphComponent,
     SafeHtmlPipe
   ],
-  bootstrap: [ MainComponent ]
+  bootstrap: [ MainComponent ],
+  providers: [ SeriesService ]
 })
 
 export class AppModule { }
