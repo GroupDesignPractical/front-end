@@ -10,7 +10,7 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class SeriesService {
 
-  private trendsUrl = 'http://51.140.124.252:3000/trend_sources';
+  private trendsUrl = 'http://localhost:3000/trend_sources';
 
   constructor(private http: Http) {}
   
