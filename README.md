@@ -29,3 +29,11 @@ container as follows:
 The frontend can now be observed at [`localhost`](http://localhost).
 
 Note that any changes to `.ts` files are reflected upon page refresh.
+
+#### Windows instructions
+
+* Install [Docker Toolbox](https://download.docker.com/win/stable/DockerToolbox.exe)
+* Launch Docker Quickstart Terminal
+* `cd` to directory containing cloned code
+* Proceed as above
+* Available at output of `docker-machine ip default` instead of `localhost`
