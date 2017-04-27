@@ -29,6 +29,7 @@
 
       // other libraries
       'rxjs':                      'npm:rxjs',
+	  'fuse.js':                   'npm:fuse.js'
       'angular-in-memory-web-api': 'npm:angular-in-memory-web-api/bundles/in-memory-web-api.umd.js'
     },
     // packages tells the System loader how to load when no filename and/or no extension
@@ -46,7 +47,11 @@
       'angular2-highcharts': {
         main: './index.js',
         defaultExtension: 'js'
-      }
+      },
+	  fuse.js: {
+		main: './index.d.ts'
+		defaultExtension: 'js'
+	  }
     }
   });
 })(this);
