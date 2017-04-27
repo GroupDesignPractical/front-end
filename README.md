@@ -35,5 +35,6 @@ Note that any changes to `.ts` files are reflected upon page refresh.
 * Install [Docker Toolbox](https://download.docker.com/win/stable/DockerToolbox.exe)
 * Launch Docker Quickstart Terminal
 * `cd` to directory containing cloned code
+* `dos2unix docker/entrypoint.sh`
 * Proceed as above
 * Available at output of `docker-machine ip default` instead of `localhost`
