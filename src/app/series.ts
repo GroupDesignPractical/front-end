@@ -7,6 +7,7 @@ export class Trend {
   UID: number;
   index: number;
   selected: boolean;
+  hovered: boolean;
   color: string;
 }
 export class News {
@@ -14,5 +15,6 @@ export class News {
   UID: number;
   index: number;
   selected: boolean;
+  hovered: boolean;
   shape: number;
 }

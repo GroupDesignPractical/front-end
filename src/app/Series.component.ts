@@ -61,20 +61,16 @@ export class SeriesComponent implements AfterViewInit, OnInit{
 
   trends: Trend[];
 
-  articles: any = [
-    {UID: 3673, name: 'BBC News', index: 1, selected: false, hovered: false, shape: 3},
-    {UID: 3048, name: 'Reuters', index: 2, selected: false, hovered: false, shape: 4},
-    {UID: 3673, name: 'Telegraph', index: 3, selected: false, hovered: false, shape: 5},
-    {UID: 3673, name: 'Guardian', index: 4, selected: false, hovered: false, shape: 6},
-    {UID: 3673, name: 'Daily Mail', index: 5, selected: false, hovered: false, shape: 7},
-    {UID: 3673, name: 'ABC', index: 6, selected: false, hovered: false, shape: 0}
-  ];
+  articles: News[];
 
   constructor(private seriesService: SeriesService) {}
 
   ngOnInit(): void {
     this.seriesService.getTrends().subscribe(
-                                    trends => alert(trends.toString()),
+                                    trends => { if (trends.length < 1) alert("No trend sources!"); this.trends = trends},
+                                    error => console.error(error));
+    this.seriesService.getNews().subscribe(
+                                    news => { if (news.length < 1) alert("No news sources!"); this.articles = news},
                                     error => console.error(error));
   }
 
