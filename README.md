@@ -9,9 +9,10 @@ Frontend for group design practical
 The easiest way to setup a development environment is using
 [docker](https://www.docker.com/).
 
-We will volume mount the current directory a container, which runs a typescript
-compiler and a node server instance in the background; first, we'll use the
-container to install our node dependencies:
+We will volume mount the current directory containing the frontend source code
+to a container, which runs a typescript compiler and a node server instance in
+the background; first, we'll use the container to install our node
+dependencies:
 
 `docker run -it -v "$PWD":/opt/market-junction -w /opt/market-junction --rm mhart/alpine-node npm install`
 
