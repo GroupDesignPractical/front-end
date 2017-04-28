@@ -9,26 +9,24 @@ Frontend for group design practical
 The easiest way to setup a development environment is using
 [docker](https://www.docker.com/).
 
-First, build an image of the base: `docker build .` (~ 1 min)
+We will volume mount the current directory a container, which runs a typescript
+compiler and a node server instance in the background; first, we'll use the
+container to install our node dependencies:
 
-Take note of the `IMAGEID` in the last line; it will be different almost
-every time the image is built, and looks something like:
+`docker run -it -v "$PWD":/opt/market-junction -w /opt/market-junction --rm mhart/alpine-node npm install`
 
-```
-...
-Removing intermediate container 242cfe02b328
-Successfully built 43d25183ce2e <- IMAGEID
-```
+(if using Windows append `--no-bin-links`)
 
-Then, the current directory can be volume mounted into the container, which
-runs a typescript compiler and a `nginx` instance in the background; invoke the
-container as follows:
+This populates the `node_modules` folder in the current directory.
 
-`docker run -p 3000:80 -v "$PWD":/opt/market-junction --name market-junction -d IMAGEID`
+Now we can start up the application:
+
+`docker run -it -p 80:3000 -v "$PWD":/opt/market-junction -w /opt/market-junction --rm mhart/alpine-node sh -c 'npm install typescript concurrently lite-server -g && npm start'`
 
 The frontend can now be observed at [`localhost`](http://localhost).
 
-Note that any changes to `.ts` files are reflected upon page refresh.
+Note that any changes to `.ts` cause a page refresh and are immediately
+reflected..
 
 #### Windows instructions
 
