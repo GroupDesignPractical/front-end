@@ -29,7 +29,8 @@
       '@angular/upgrade/static': 'npm:@angular/upgrade/bundles/upgrade-static.umd.min.js',
       // other libraries
       'rxjs':                      'npm:rxjs@5.0.1',
-      'angular-in-memory-web-api': 'npm:angular-in-memory-web-api/bundles/in-memory-web-api.umd.js'
+      'angular-in-memory-web-api': 'npm:angular-in-memory-web-api/bundles/in-memory-web-api.umd.js',
+      'fuse.js':                   'npm:fuse.js@3.0.0'
     },  
     // packages tells the System loader how to load when no filename and/or no extension
     packages: {
@@ -47,7 +48,11 @@
       'angular2-highcharts': {
         main: './index.js',
         defaultExtension: 'js'
-      }
+      },
+      'fuse.js': {
+		    main: './index.d.ts',
+		    defaultExtension: 'js'
+      }      
     }
   });
   })(this);
