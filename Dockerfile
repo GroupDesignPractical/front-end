@@ -1,13 +1,9 @@
-FROM nginx
-ADD . /opt/market-junction
+FROM mhart/alpine-node
+WORKDIR /opt/market-junction
+ADD . .
 
-RUN apt-get update \
-    && apt-get install -y curl gnupg \
-    && curl -sL https://deb.nodesource.com/setup_6.x | bash - \
-    && apt-get install -y nodejs node-typescript \
-    && cd /opt/market-junction && npm install && npm run build \
-    && rm -rf /usr/share/nginx/html && ln -s /opt/market-junction/src /usr/share/nginx/html
+RUN npm install
 
-EXPOSE 80
+EXPOSE 3000
 
-CMD ["/opt/market-junction/docker/entrypoint.sh"]
+CMD ["sh", "-c", "npm install && npm start"]
