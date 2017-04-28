@@ -10,10 +10,6 @@
     },
     // map tells the System loader where to look for things
     map: {
-      
-      'angular2-highcharts': 'npm:angular2-highcharts',
-      'highcharts': 'npm:highcharts',
-      
       app: 'app', // location of transpiled app files
       // angular minimized umd bundles
       '@angular/core': 'npm:@angular/core/bundles/core.umd.min.js',
@@ -29,8 +25,10 @@
       '@angular/upgrade/static': 'npm:@angular/upgrade/bundles/upgrade-static.umd.min.js',
       // other libraries
       'rxjs':                      'npm:rxjs@5.0.1',
-      'angular-in-memory-web-api': 'npm:angular-in-memory-web-api/bundles/in-memory-web-api.umd.js',
-      'fuse.js':                   'npm:fuse.js@3.0.0'
+      'angular2-highcharts': 'npm:angular2-highcharts',
+      'highcharts': 'npm:highcharts',
+      'fuse.js': 'npm:fuse.js',
+      'angular-in-memory-web-api': 'npm:angular-in-memory-web-api/bundles/in-memory-web-api.umd.js'
     },  
     // packages tells the System loader how to load when no filename and/or no extension
     packages: {
@@ -50,9 +48,9 @@
         defaultExtension: 'js'
       },
       'fuse.js': {
-		    main: './index.d.ts',
-		    defaultExtension: 'js'
-      }      
+        main: './dist/fuse.js',
+        defaultExtension: 'js'
+      }
     }
   });
   })(this);
