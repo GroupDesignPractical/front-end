@@ -50,6 +50,9 @@ export class GraphComponent implements OnChanges, OnInit{
     this.len = 1000;
   }
   ngOnChanges(changes: SimpleChanges) {
+	alert("NGON CHANGES");
+    alert(this.numMonths);
+	alert(this.periodEndUTC);
     try {
       this.chart.xAxis[0].setExtremes(this.UTCMonthMinus(this.periodEndUTC, this.numMonths, true), this.periodEndUTC);
     }

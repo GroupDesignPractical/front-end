@@ -32,7 +32,7 @@ export class StockAddService {
   
   getStockData() : Observable<Stock[]> {
 	return this.http
-	           .get('http://localhost:3000/stocks')
+	           .get('http://52.140.124.252:3000/stocks')
 			   .map(response => response.json().data as Stock[]);
   }
   private stocks : Stock[] = [];

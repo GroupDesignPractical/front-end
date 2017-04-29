@@ -77,10 +77,6 @@ export class SeriesComponent implements AfterViewInit, OnInit{
   @Output() sChange = new EventEmitter();
   ngAfterViewInit(): void {
     /* Set first source of each type to be selected and emit this as a change. */
-    if (this.markets.length > 0){
-      this.markets[0].selected = true;
-      this.sChange.emit({UID: this.markets[0].UID, index: this.markets[0].index, selected: true, color: this.markets[0].color, name: this.markets[0].name});
-    }
     if (this.trends.length > 0){
       this.trends[0].selected = true;
       this.sChange.emit({UID: this.trends[0].UID, index: this.trends[0].index, selected: true, color: this.trends[0].color, name: this.trends[0].name});
