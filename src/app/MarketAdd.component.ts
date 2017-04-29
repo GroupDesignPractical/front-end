@@ -37,8 +37,9 @@ import {StockAddService} from './StockAdd.service'
   `
 })
 export class MarketAddComponent implements OnInit{
+	
 
-    stocks: Observable<string[]>;
+    stocks: Observable<string[]> = Observable.of<string[]>(["A"]);
 	private searchTerms = new Subject<string>();
 	
 	constructor(
@@ -58,10 +59,9 @@ export class MarketAddComponent implements OnInit{
 		this.stocks = this.searchTerms
 			.debounceTime(50) //wait 50 ms after keystroke
 			.distinctUntilChanged()
-			.switchMap(term => term
-				? this.stockAddService.search(term)
-				:Observable.of<string[]>([]))
-			.catch(error => {return Observable.of<string[]>([]);}); //TODO
-		
+			.switchMap(term => 
+				this.stockAddService.search(term))
+			.catch(error => {console.log(error); return Observable.of<string[]>(["C"]);})
+			.do(x => console.log("x is " + x)); //DEBUG
 	}
 }
