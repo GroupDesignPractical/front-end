@@ -62,6 +62,8 @@ export class SeriesComponent implements AfterViewInit, OnInit{
   trends: Trend[];
 
   articles: News[];
+  
+  stocks: Stock[];
 
   constructor(private seriesService: SeriesService) {}
 
@@ -71,6 +73,9 @@ export class SeriesComponent implements AfterViewInit, OnInit{
                                     error => console.error(error));
     this.seriesService.getNews().subscribe(
                                     news => { if (news.length < 1) alert("No news sources!"); this.articles = news},
+                                    error => console.error(error));
+	this.seriesService.getStocks().subscribe(
+                                    stocks => { if (stocks.length < 1) alert("No stocks sources!"); this.stocks = stocks; console.log(stocks)},
                                     error => console.error(error));
   }
 

@@ -11,6 +11,7 @@ export class SeriesService {
 
   private trendsUrl = 'http://51.140.124.252:3000/trend_sources';
   private newsUrl = 'http://51.140.124.252:3000/news_sources';
+  private stocksUrl = 'http://51.140.124.252:3000/stocks';
 
   constructor(private http: Http) {}
   
@@ -60,6 +61,55 @@ export class SeriesService {
       trends[i].color = color;
     }
     return trends || { };
+  }
+  
+  getStocks(): Observable<Stock[]> {
+    return this.http.get(this.stocksUrl)
+               .map(this.extractStocks)
+               .catch(this.handleError);
+  }
+
+  private extractStocks(res: Response) {
+    var stocks: Stock[] = new Array(res.json().length)
+    for (var i = 0; i < res.json().length; i++){
+      var name = res.json()[i].name;
+      var UID = 2000 +  i;
+      var index = i;
+      var selected: boolean;
+      if (i == 0) {
+        selected = true;
+      } else {
+        selected = false;
+      }
+      var color: string;
+      switch(i) {
+        case 0:
+          color = '#0033CC';
+          break;
+        case 1:
+          color = '#006600';
+          break;
+        case 2:
+          color = '#660066';
+          break;
+        case 3:
+          color = '#996633';
+          break;
+        case 4:
+          color = '#CCCC00';
+          break;
+        default:
+          color = '#AAAAAA';
+      }
+	  stocks[i] = {}
+      stocks[i].name = name;
+      stocks[i].UID =UID;
+      stocks[i].index = index;
+      stocks[i].selected = selected;
+      stocks[i].hovered = false;
+      stocks[i].color = color;
+    }
+    return stocks || { };
   }
 
   getNews(): Observable<News[]> {
