@@ -27,7 +27,8 @@ import {StockAddService} from './StockAdd.service'
             <div class="pure-u-1-24"></div>
             <input [(ngModel)]="newStock" placeholder="e.g. Nikkei 225" class="pure-u-22-24" (keyup) = "search(newStock)">
 			<div>
-				{{test}}
+				<div *ngFor = "let stock of stocks | async" >
+				{{stock}}
 			</div>
           </div>
         </div>
@@ -51,11 +52,6 @@ export class MarketAddComponent implements OnInit{
 
 	search(term: string): void{
 		this.searchTerms.next(term);
-		this.stockAddService.search(term).then(
-										value => {this.tempStocks = value;
-												  console.log(this.tempStocks);}
-										error => {console.log(error);}
-									)
 	}
 	
 	addStock() : void{

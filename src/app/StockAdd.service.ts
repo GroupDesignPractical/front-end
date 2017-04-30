@@ -32,7 +32,6 @@ export class StockAddService {
   }
   
   private options = {
-    id: "name",
     shouldSort: true,
     threshold: 0.6,
     location: 0,
@@ -46,14 +45,9 @@ export class StockAddService {
   
   getStockData() : Observable<Stock[]> {
 	return this.http
-<<<<<<< HEAD
 	           .get('http://51.140.124.252:3000/stocks')
 			   .map(response => response.json() as Stock[])
 			   .do(x => console.log("stocks read are " + x)); //DEBUG
-=======
-	           .get('http://52.140.124.252:3000/stocks')
-			   .map(response => response.json().data as Stock[]);
->>>>>>> refs/remotes/origin/master
   }
   private fuse : Fuse = new Fuse([], this.options);
   private result = this.getStockData().first().subscribe(
@@ -63,8 +57,8 @@ export class StockAddService {
 							  error => {console.log(error)});
 
   search(term: string): Observable<string[]> {
-	var result : string[] = this.fuse.search(term).slice(0, 3);	
-	console.log(result); //DEBUG
-    return Observable.of<string[]>(result);
+	var ans : string[] = this.fuse.search(term).map(elem => elem["name"]).slice(0, 3);	
+	console.log(ans); //DEBUG
+    return Observable.of<string[]>(ans);
   }
 }
