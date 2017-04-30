@@ -70,7 +70,7 @@ export class MainComponent implements OnInit, AfterViewInit {
 
 
   ngOnInit() {
-    this.selectedPeriod = 0;
+    this.selectedPeriod = 1;
     var endDate = new Date();
     this.endDateUTC = endDate.valueOf()
     this.options = {
@@ -106,6 +106,7 @@ export class MainComponent implements OnInit, AfterViewInit {
   }
   handlePeriodChangeEvent(period) {
     this.selectedPeriod = period.numMonths;
+	alert(period.numMonths);
   }
   handleSeriesChangeEvent(sChange) {
     if (sChange.UID >= 3000){
