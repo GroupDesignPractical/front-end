@@ -106,7 +106,7 @@ export class MainComponent implements OnInit, AfterViewInit {
   }
   handlePeriodChangeEvent(period) {
     this.selectedPeriod = period.numMonths;
-	alert(period.numMonths);
+	this.graphComponent.PeriodChange(this.selectedPeriod);
   }
   handleSeriesChangeEvent(sChange) {
     if (sChange.UID >= 3000){
