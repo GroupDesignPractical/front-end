@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges, OnInit, AfterViewInit } from '@angular/core';
 import { ChartModule } from 'angular2-highcharts';
 import { SeriesChange } from './series-change';
 
@@ -27,7 +27,7 @@ import { SeriesChange } from './series-change';
   `
 })
 
-export class GraphComponent implements OnChanges, OnInit{
+export class GraphComponent implements OnChanges, OnInit, AfterViewInit{
   @Input() options: Object;
   @Input() numMonths: number;
   @Input() periodEndUTC: number;
@@ -49,10 +49,12 @@ export class GraphComponent implements OnChanges, OnInit{
     this.seriesTypes = {market: 0, trend: 1, news: 2};
     this.len = 1000;
   }
+  
+  ngAfterViewInit() {
+	  this.ngOnChanges(null);
+  }
+  
   ngOnChanges(changes: SimpleChanges) {
-	alert("NGON CHANGES");
-    alert(this.numMonths);
-	alert(this.periodEndUTC);
     try {
       this.chart.xAxis[0].setExtremes(this.UTCMonthMinus(this.periodEndUTC, this.numMonths, true), this.periodEndUTC);
     }
@@ -144,6 +146,11 @@ export class GraphComponent implements OnChanges, OnInit{
     return false;
   }
 
+  PeriodChange(months: number) {
+	this.numMonths = months;
+	this.ngOnChanges(null);
+  }
+  
   MarketChange(market: SeriesChange){
 	market.type = this.seriesTypes.market;
 	if(market.selected){
