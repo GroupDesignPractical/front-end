@@ -25,13 +25,7 @@ export class SeriesService {
     for (var i = 0; i < res.json().length; i++){
       var name = res.json()[i];
       var UID = 2000 +  i;
-      var index = i;
-      var selected: boolean;
-      if (i == 0) {
-        selected = true;
-      } else {
-        selected = false;
-      }
+      var index = i + 1;
       var color: string;
       switch(i) {
         case 0:
@@ -55,7 +49,7 @@ export class SeriesService {
       trends[i].name = name;
       trends[i].UID =UID;
       trends[i].index = index;
-      trends[i].selected = selected;
+      trends[i].selected = false;
       trends[i].hovered = false;
       trends[i].color = color;
     }
@@ -73,25 +67,15 @@ export class SeriesService {
     for (var i = 0; i < res.json().length; i++){
       var name = res.json()[i].name;
       var UID = 3000 +  i;
-      var index = i;
-      var selected: boolean;
-      if (i == 0) {
-        selected = true;
-      } else {
-        selected = false;
-      }
+      var index = i + 1;
       var shape: number;
       if (i < 5) {
         shape = i + 3
       } else {
         shape = 0
       }
-      news[i].name = name;
-      news[i].UID =UID;
-      news[i].index = index;
-      news[i].selected = selected;
-      news[i].hovered = false;
-      news[i].shape = shape;
+	  var newsSource: News = {name: name, UID: UID, index: index, selected: false, hovered: false, shape: shape};
+      news[i] = newsSource;
     }
     return news || { };
   }
