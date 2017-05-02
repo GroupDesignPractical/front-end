@@ -31,7 +31,7 @@ import {StockAddService} from './StockAdd.service'
 			</div>
           </div>
         </div>
-      </div>
+    </div>
   `
 })
 export class MarketAddComponent implements OnInit{
