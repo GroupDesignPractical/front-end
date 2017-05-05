@@ -1,6 +1,13 @@
 import { Component, Input, OnChanges, SimpleChanges, OnInit, AfterViewInit } from '@angular/core';
 import { ChartModule } from 'angular2-highcharts';
 import { SeriesChange } from './series-change';
+import { Headers, Http, Response } from '@angular/http';
+import { Injectable } from '@angular/core';
+
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/toPromise';
 
 @Component({
   selector: 'graph-comp',
@@ -37,6 +44,8 @@ export class GraphComponent implements OnChanges, OnInit, AfterViewInit{
   saveInstance(chartInstance) {
     this.chart = chartInstance;
   }
+  
+  constructor(private http: Http) {}
 
   ngOnInit() {
     // set period end to be the end of the month supplied, and to not have time
@@ -154,49 +163,72 @@ export class GraphComponent implements OnChanges, OnInit, AfterViewInit{
   MarketChange(market: SeriesChange){
 	market.type = this.seriesTypes.market;
 	if(market.selected){
-		this.chart.addSeries({
-			name: market.name,
-			data: this.GetMarketData(market),
-			color: market.color,
-			id: market.UID,
-			zIndex: 1,
-			seriestype: market.type
-		});
+		var endDate = new Date();
+		var startDate = new Date(endDate.getFullYear() - 5, endDate.getMonth(), endDate.getDate());
+		var end = encodeURIComponent(endDate.toISOString());
+		var start = encodeURIComponent(startDate.toISOString());
+		
+		var url = "http://51.140.124.252:3000/stock?symbol="+market.symbol+"&start="+start+"&end="+end;
+		
+		this.http.get(url)
+		.toPromise()
+		.then(res => {
+			var l = this.processStock(res)
+			this.chart.addSeries({
+				name: market.name,
+				data: l,
+				color: market.color,
+				id: market.UID,
+				zIndex: 1,
+				seriestype: market.type
+			});
+		})
+		.catch(this.handleError);
 	} else {
 		var a = this.chart.series.filter(function(s){return (s.name == market.name && s.options.id == market.UID && s.options.seriestype == market.type)});
 		a.forEach(function(x){x.remove()});
 	};
   }
-
-  GetMarketData(market: SeriesChange) {
-    return this.GetRanLine(this.len);
+  
+  private processStock(res:Response):number[] {
+	var l = []
+    for (var i = 0; i < res.json().data.length; i+=1){
+	  var date = new Date(res.json().data[i].date)
+      l.push([Date.UTC(date.getFullYear(), date.getMonth()+1, date.getDate()), res.json().data[i].datum])
+    }
+	return l;
   }
 
   TrendChange(trend: SeriesChange){
 	trend.type = this.seriesTypes.trend;
 	if(trend.selected){
-		this.chart.addSeries({
-			name: trend.name,
-			data: this.GetTrendData(trend),
-			color : trend.color,
-			id : trend.UID,
-			yAxis : 1, 
-			type : "column",
-			zIndex : 0,
-			seriestype: trend.type
-		});
+		var endDate = new Date();
+		var startDate = new Date(endDate.getFullYear() - 5, endDate.getMonth(), endDate.getDate());
+		var end = encodeURIComponent(endDate.toISOString());
+		var start = encodeURIComponent(startDate.toISOString());
+		
+		var url = "http://51.140.124.252:3000/trends?source="+trend.name+"&start="+start+"&end="+end;
+		
+		this.http.get(url)
+		.toPromise()
+		.then(res => {
+			var l = this.processStock(res)
+			this.chart.addSeries({
+				name: trend.name,
+				data: l,
+				color : trend.color,
+				id : trend.UID,
+				yAxis : 1, 
+				type : "column",
+				zIndex : 0,
+				seriestype: trend.type
+			});
+		})
+		.catch(this.handleError);
 	} else {
 		var a = this.chart.series.filter(function(s){return (s.name == trend.name && s.options.id == trend.UID && s.options.seriestype == trend.type)});
 		a.forEach(function(x){x.remove()});
 	};
-  }
-
-  GetTrendData(trend: SeriesChange) {
-    return this.GetRanPoint(this.len);
-  }
-
-  GetNewsData(article: SeriesChange) {
-    return this.GetRanPoint(this.len);
   }
 
   NewsChange(news: SeriesChange){
@@ -206,40 +238,45 @@ export class GraphComponent implements OnChanges, OnInit, AfterViewInit{
           news.shape -= 2;
         }
 	if(news.selected){
-		this.chart.addSeries({
-			name: news.name,
-			data: this.GetNewsData(news),
-			id : news.UID,
-			yAxis : 1, 
-			type : "scatter",
-			zIndex : 1,
-			marker: {symbol:["circle", "triangle", "square", "diamond","triangle-down"][news.shape]},
-			seriestype:news.type
-		});
+		var endDate = new Date();
+		var startDate = new Date(endDate.getFullYear() - 5, endDate.getMonth(), endDate.getDate());
+		var end = encodeURIComponent(endDate.toISOString());
+		var start = encodeURIComponent(startDate.toISOString());
+		
+		var url = "http://51.140.124.252:3000/news?source="+news.name+"&start="+start+"&end="+end;
+		
+		this.http.get(url)
+		.toPromise()
+		.then(res => {
+			var l = this.processStock(res)
+			this.chart.addSeries({
+				name: news.name,
+				data: l,
+				id : news.UID,
+				yAxis : 1, 
+				type : "scatter",
+				zIndex : 1,
+				marker: {symbol:["circle", "triangle", "square", "diamond","triangle-down"][news.shape]},
+				seriestype:news.type
+			});
+		})
+		.catch(this.handleError);
 	} else {
 		var a = this.chart.series.filter(function(s){return (s.name == news.name && s.options.id == news.UID && s.options.seriestype == news.type)});
 		a.forEach(function(x){x.remove()});
 	};
   }
-
-  GetRanLine(len: number){
-	var ranLine = [];
-	var temp = Math.random() * 100;
-	for(var i = 0; i < len; i++){
-	 temp += Math.random()*10;
-	 temp -= 5;
-	 ranLine.push([Date.UTC(2017,0,(1+i)), temp]);
-	};
-	return ranLine;
-  }
-
-  GetRanPoint(len: number){
-	var ranPoints = [];
-	var temp = 0;
-	for(var i = 0; i < len; i++){
-	 temp = Math.random()*100;
-	 ranPoints.push([Date.UTC(2017,0,(1+i)), temp]);
-	};
-	return ranPoints;
+  
+  private handleError (error: Response | any) {
+    let errMsg: string;
+    if (error instanceof Response) {
+      const body = error.json() || '';
+      const err = body.error || JSON.stringify(body);
+      errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
+    } else {
+      errMsg = error.message ? error.message : error.toString();
+    }
+    console.error(errMsg);
+    return Observable.throw(errMsg);
   }
 }
