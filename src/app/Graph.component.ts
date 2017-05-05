@@ -161,14 +161,14 @@ export class GraphComponent implements OnChanges, OnInit, AfterViewInit{
   }
   
   MarketChange(market: SeriesChange){
-	market.type = this.seriesTypes.market;
+	market.seriesType = this.seriesTypes.market;
 	if(market.selected){
 		var endDate = new Date();
 		var startDate = new Date(endDate.getFullYear() - 5, endDate.getMonth(), endDate.getDate());
 		var end = encodeURIComponent(endDate.toISOString());
 		var start = encodeURIComponent(startDate.toISOString());
 		
-		var url = "http://51.140.124.252:3000/stock?symbol="+market.symbol+"&start="+start+"&end="+end;
+		var url = "http://51.140.124.252:3000/stock?symbol="+market.type+"&start="+start+"&end="+end;
 		
 		this.http.get(url)
 		.toPromise()
@@ -185,7 +185,7 @@ export class GraphComponent implements OnChanges, OnInit, AfterViewInit{
 		})
 		.catch(this.handleError);
 	} else {
-		var a = this.chart.series.filter(function(s){return (s.name == market.name && s.options.id == market.UID && s.options.seriestype == market.type)});
+		var a = this.chart.series.filter(function(s){return (s.name == market.name && s.options.id == market.UID && s.options.seriestype == market.seriesType)});
 		a.forEach(function(x){x.remove()});
 	};
   }
@@ -200,7 +200,7 @@ export class GraphComponent implements OnChanges, OnInit, AfterViewInit{
   }
 
   TrendChange(trend: SeriesChange){
-	trend.type = this.seriesTypes.trend;
+	trend.seriesType = this.seriesTypes.trend;
 	if(trend.selected){
 		var endDate = new Date();
 		var startDate = new Date(endDate.getFullYear() - 5, endDate.getMonth(), endDate.getDate());
@@ -226,13 +226,13 @@ export class GraphComponent implements OnChanges, OnInit, AfterViewInit{
 		})
 		.catch(this.handleError);
 	} else {
-		var a = this.chart.series.filter(function(s){return (s.name == trend.name && s.options.id == trend.UID && s.options.seriestype == trend.type)});
+		var a = this.chart.series.filter(function(s){return (s.name == trend.name && s.options.id == trend.UID && s.options.seriestype == trend.seriesType)});
 		a.forEach(function(x){x.remove()});
 	};
   }
 
   NewsChange(news: SeriesChange){
-	news.type = this.seriesTypes.news;
+	news.seriesType = this.seriesTypes.news;
         // Shapes are supplied with number of points, which must be converted to array index
         if (news.shape >= 3){
           news.shape -= 2;
@@ -262,7 +262,7 @@ export class GraphComponent implements OnChanges, OnInit, AfterViewInit{
 		})
 		.catch(this.handleError);
 	} else {
-		var a = this.chart.series.filter(function(s){return (s.name == news.name && s.options.id == news.UID && s.options.seriestype == news.type)});
+		var a = this.chart.series.filter(function(s){return (s.name == news.name && s.options.id == news.UID && s.options.seriestype == news.seriesType)});
 		a.forEach(function(x){x.remove()});
 	};
   }
