@@ -39,7 +39,6 @@ export class GraphComponent implements OnChanges, OnInit, AfterViewInit{
   @Input() numMonths: number;
   @Input() periodEndUTC: number;
   chart: any;
-  seriesTypes: any;
   len: number;
   saveInstance(chartInstance) {
     this.chart = chartInstance;
@@ -55,7 +54,6 @@ export class GraphComponent implements OnChanges, OnInit, AfterViewInit{
     var months = peDate.getUTCMonth();
     var days = this.lastDayOfMonth(months, years);
     this.periodEndUTC = Date.UTC(years, months, days);
-    this.seriesTypes = {market: 0, trend: 1, news: 2};
     this.len = 1000;
   }
   
@@ -161,14 +159,13 @@ export class GraphComponent implements OnChanges, OnInit, AfterViewInit{
   }
   
   MarketChange(market: SeriesChange){
-	market.seriesType = this.seriesTypes.market;
 	if(market.selected){
 		var endDate = new Date();
 		var startDate = new Date(endDate.getFullYear() - 5, endDate.getMonth(), endDate.getDate());
 		var end = encodeURIComponent(endDate.toISOString());
 		var start = encodeURIComponent(startDate.toISOString());
 		
-		var url = "http://51.140.124.252:3000/stock?symbol="+market.type+"&start="+start+"&end="+end;
+		var url = "http://51.140.124.252:3000/stock?symbol="+market.symbol+"&start="+start+"&end="+end;
 		
 		this.http.get(url)
 		.toPromise()
@@ -179,13 +176,12 @@ export class GraphComponent implements OnChanges, OnInit, AfterViewInit{
 				data: l,
 				color: market.color,
 				id: market.UID,
-				zIndex: 1,
-				seriestype: market.type
+				zIndex: 1
 			});
 		})
 		.catch(this.handleError);
 	} else {
-		var a = this.chart.series.filter(function(s){return (s.name == market.name && s.options.id == market.UID && s.options.seriestype == market.seriesType)});
+		var a = this.chart.series.filter(function(s){return (s.name == market.name && s.options.id == market.UID)});
 		a.forEach(function(x){x.remove()});
 	};
   }
@@ -200,7 +196,6 @@ export class GraphComponent implements OnChanges, OnInit, AfterViewInit{
   }
 
   TrendChange(trend: SeriesChange){
-	trend.seriesType = this.seriesTypes.trend;
 	if(trend.selected){
 		var endDate = new Date();
 		var startDate = new Date(endDate.getFullYear() - 5, endDate.getMonth(), endDate.getDate());
@@ -220,19 +215,17 @@ export class GraphComponent implements OnChanges, OnInit, AfterViewInit{
 				id : trend.UID,
 				yAxis : 1, 
 				type : "column",
-				zIndex : 0,
-				seriestype: trend.type
+				zIndex : 0
 			});
 		})
 		.catch(this.handleError);
 	} else {
-		var a = this.chart.series.filter(function(s){return (s.name == trend.name && s.options.id == trend.UID && s.options.seriestype == trend.seriesType)});
+		var a = this.chart.series.filter(function(s){return (s.name == trend.name && s.options.id == trend.UID)});
 		a.forEach(function(x){x.remove()});
 	};
   }
 
   NewsChange(news: SeriesChange){
-	news.seriesType = this.seriesTypes.news;
         // Shapes are supplied with number of points, which must be converted to array index
         if (news.shape >= 3){
           news.shape -= 2;
@@ -256,13 +249,12 @@ export class GraphComponent implements OnChanges, OnInit, AfterViewInit{
 				yAxis : 1, 
 				type : "scatter",
 				zIndex : 1,
-				marker: {symbol:["circle", "triangle", "square", "diamond","triangle-down"][news.shape]},
-				seriestype:news.type
+				marker: {symbol:["circle", "triangle", "square", "diamond","triangle-down"][news.shape]}
 			});
 		})
 		.catch(this.handleError);
 	} else {
-		var a = this.chart.series.filter(function(s){return (s.name == news.name && s.options.id == news.UID && s.options.seriestype == news.seriesType)});
+		var a = this.chart.series.filter(function(s){return (s.name == news.name && s.options.id == news.UID)});
 		a.forEach(function(x){x.remove()});
 	};
   }
