@@ -28,14 +28,12 @@ export class SafeHtmlPipe implements PipeTransform {
         Display Series       
         <div class="sidebar-divider"></div>
         <p>Stocks</p>
-        <!-- <form class="pure-form radio-section"> -->
           <div *ngFor="let market of markets">
             <input id="{{market.UID}}" type="checkbox" name="market-checkboxes" value="{{market.UID}}" [checked]="market.selected" (change)="onChange({UID: market.UID, index: market.index, selected: $event.target.checked, name: market.name, color: market.color, symbol: market.symbol})">
             <label for="{{market.UID}}">
               <span class="{{'market-color-' + market.index + ' market'}}"><span></span></span>{{market.name}}
             </label>
           </div>
-        <!-- </form> -->
         <div class="sidebar-divider"></div>
         <p>Trends</p>
         <form class="pure-form radio-section">
@@ -59,12 +57,9 @@ export class SafeHtmlPipe implements PipeTransform {
   providers: [SeriesService]
 })
 export class SeriesComponent implements AfterViewInit, OnInit{
-  markets: any = [
-    {UID: 1002, name: 'FTSE 100', index: 1, selected: false, color: '#FFCC00', symbol: 'BARC'},
-    {UID: 1043, name: 'Dow Jones', index: 2, selected: false, color: '#FF66FF', symbol: 'LLOY'},
-    {UID: 1434, name: 'Crude Oil', index: 3, selected: false, color: '#66FF33', symbol: 'HSBA'}
-  ];
 
+  markets: Stock[] = [];
+  
   trends: Observable<Array<Trend>>;
 
   articles: Observable<Array<News>>;
@@ -118,8 +113,29 @@ export class SeriesComponent implements AfterViewInit, OnInit{
     this.onChange({UID: article.UID, index: article.index, selected: article.selected, name: article.name, shape: article.shape, color:'#000000', type: 'article', symbol: 'NONE'});
   }
   addMarket(stock: Stock) {
-	  alert("IN SERIES COMPONENT")
-	  alert(stock.name);
-	  alert(stock.symbol);
+	  var UID = this.markets.length + 1000;
+	  var index = this.markets.length + 1;
+	  var color = this.getColor(this.markets.length);
+	  var name = stock.name;
+	  var symbol = stock.symbol;
+	  var newStock: Stock = {name: name, symbol: symbol, UID: UID, index: index, selected: true, hovered: false, color: color};
+	  this.markets.push(newStock);
+	  this.onChange({UID: UID, index: index, selected: true, color: color, shape: 0, type: 'market', name: name, symbol: symbol});
+  }
+  getColor(index: number) {
+    switch(index){
+      case 0:
+        return '#FFCC00';
+      case 1:
+        return '#FF66FF';
+      case 2:
+        return '#66FF33';
+      case 3:
+        return '#66FFFF';
+      case 4:
+        return '#FF3300';
+      default:
+        return '#000000';
+	}
   }
 }

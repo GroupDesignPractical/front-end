@@ -190,11 +190,20 @@ export class GraphComponent implements OnChanges, OnInit, AfterViewInit{
 	var l = []
     for (var i = 0; i < res.json().data.length; i+=1){
 	  var date = new Date(res.json().data[i].date)
-      l.push([Date.UTC(date.getFullYear(), date.getMonth()+1, date.getDate()), res.json().data[i].datum])
+      l.push([Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()), res.json().data[i].datum])
     }
 	return l;
   }
 
+  private processTrend(res:Response):number[] {
+	var l = []
+    for (var i = 0; i < res.json().data.length; i+=1){
+	  var date = new Date(res.json().data[i].date)
+      l.push([Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()), res.json().data[i].volume])
+    }
+	return l;
+  }
+  
   TrendChange(trend: SeriesChange){
 	if(trend.selected){
 		var endDate = new Date();
@@ -207,7 +216,7 @@ export class GraphComponent implements OnChanges, OnInit, AfterViewInit{
 		this.http.get(url)
 		.toPromise()
 		.then(res => {
-			var l = this.processStock(res)
+			var l = this.processTrend(res)
 			this.chart.addSeries({
 				name: trend.name,
 				data: l,
