@@ -40,7 +40,7 @@ export class SafeHtmlPipe implements PipeTransform {
         <p>Trends</p>
         <form class="pure-form radio-section">
           <div *ngFor='let trend of trends | async'>
-            <input id="{{trend.UID}}" type="checkbox" name="trend-checkboxes" value="{{trend.UID}}" [checked]="trend.selected" (change)="onChange({UID: trend.UID, index: trend.index, selected: $event.target.checked, name: trend.name, color: trend.color})">
+            <input id="{{trend.UID}}" type="checkbox" name="trend-checkboxes" value="{{trend.UID}}" [checked]="trend.selected" (change)="onChange({UID: trend.UID, index: trend.index, selected: $event.target.checked, name: trend.name, color: trend.color, symbol: 'NONE'})">
             <label for="{{trend.UID}}">
               <span class="{{'trend-color-' + trend.index + ' trend'}}"><span></span></span>{{trend.name}}
             </label>
@@ -113,6 +113,6 @@ export class SeriesComponent implements AfterViewInit, OnInit{
   };
   articleClicked(article: any) {
     article.selected = ! article.selected;
-    this.onChange({UID: article.UID, index: article.index, selected: article.selected, name: article.name, shape: article.shape, color:'#000000', type: 'article'});
+    this.onChange({UID: article.UID, index: article.index, selected: article.selected, name: article.name, shape: article.shape, color:'#000000', type: 'article', symbol: 'NONE'});
   }
 }
