@@ -18,12 +18,6 @@ export interface Stock{
 	market_cap_group: string;
 }
 
-const STOCKS = [
-{name: "Apple"},
-{name: "Barclays"},
-{name: "Microsoft"}
-]
-
 @Injectable()
 export class StockAddService {
 
