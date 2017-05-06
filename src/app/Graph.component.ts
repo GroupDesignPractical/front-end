@@ -189,7 +189,7 @@ export class GraphComponent implements OnChanges, OnInit, AfterViewInit{
   private processStock(res:Response):number[] {
     return res.json().data.map(function(p){
       return [new Date(p.date).valueOf(), p.datum]
-    )
+    })
   }
 
   private processTrend(res:Response):TrendData[] {
@@ -214,7 +214,9 @@ export class GraphComponent implements OnChanges, OnInit, AfterViewInit{
 		this.http.get(url)
 		.toPromise()
 		.then(res => {
-			var l = this.processTrend(res).map(function(s){return (s.data)});
+			var trends = this.processTrend(res)
+			var l = trends.map(function(s){return (s.data)});
+			var s = trends.map(function(s){return (s.subject)});
 			this.chart.addSeries({
 				name: trend.name,
 				data: l,
@@ -222,7 +224,12 @@ export class GraphComponent implements OnChanges, OnInit, AfterViewInit{
 				id : trend.UID,
 				yAxis : 1, 
 				type : "column",
-				zIndex : 0
+				zIndex : 0,
+				dataLabels : {
+					enabled:true,
+					formatter: function() {return this.series.options.subjects[this.point.index]}
+				},
+				subjects: s
 			});
 		})
 		.catch(this.handleError);
