@@ -54,6 +54,7 @@ h1 {
 #news {
     padding-top: 3px;
 	height: 200px;
+	border-style: none none none none;
 }
 
 input[type=checkbox]:not(old),
