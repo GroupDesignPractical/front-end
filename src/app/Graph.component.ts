@@ -5,12 +5,14 @@ import { Headers, Http, Response } from '@angular/http';
 import { Injectable } from '@angular/core';
 import { TrendData } from './series';
 import { Observable } from 'rxjs/Observable';
+import { TrendService } from './Trends.service'
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
 
 @Component({
   selector: 'graph-comp',
+  providers: [TrendService],
   template: `
       <div class="sidebar">
         <div class="pure-g">
@@ -44,7 +46,7 @@ export class GraphComponent implements OnChanges, OnInit, AfterViewInit{
     this.chart = chartInstance;
   }
   
-  constructor(private http: Http) {}
+  constructor(private http: Http, private trendService : TrendService) {}
 
   ngOnInit() {
     // set period end to be the end of the month supplied, and to not have time
@@ -197,27 +199,22 @@ export class GraphComponent implements OnChanges, OnInit, AfterViewInit{
 
   private processTrend(res:Response):TrendData[] {
 	var l = []
+	var date, oldDate : Date = undefined;
     for (var i = 0; i < res.json().data.length; i+=1){
-	  var date = new Date(res.json().data[i].date)
-      l.push({data: [Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()), res.json().data[i].volume], subject: res.json().data[i].datum, sentiment: res.json().data[i].sentiment})
+      oldDate = date;
+	  date = new Date(res.json().data[i].date);
+	  if(oldDate == undefined || (date.getDate() != oldDate.getDate())){
+	    l.push({data: [Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()), res.json().data[i].volume], subject: res.json().data[i].datum, sentiment: res.json().data[i].sentiment})
+	  }
+	  console.log(l);
     }
 	return l;
   }
   
   TrendChange(trend: SeriesChange){
 	if(trend.selected){
-		var endDate = new Date();
-		var startDate = new Date(endDate.getFullYear() - 5, endDate.getMonth(), endDate.getDate());
-		var end = encodeURIComponent(endDate.toISOString());
-		var start = encodeURIComponent(startDate.toISOString());
-		
-		var url = "http://51.140.124.252:3000/trends?source="+trend.name+"&start="+start+"&end="+end;
-		
-		this.http.get(url)
-		.toPromise()
-		.then(res => {
-			var l = this.processTrend(res).map(function(s){return (s.data)});
-			this.chart.addSeries({
+		var l = this.trendService.getTrends(trend).map(function(s){return (s.data)});
+		this.chart.addSeries({
 				name: trend.name,
 				data: l,
 				color : trend.color,
@@ -226,8 +223,6 @@ export class GraphComponent implements OnChanges, OnInit, AfterViewInit{
 				type : "column",
 				zIndex : 0
 			});
-		})
-		.catch(this.handleError);
 	} else {
 		var a = this.chart.series.filter(function(s){return (s.name == trend.name && s.options.id == trend.UID)});
 		a.forEach(function(x){x.remove()});

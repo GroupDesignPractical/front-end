@@ -12,6 +12,7 @@ import { SeriesComponent } from './Series.component';
 import { GraphComponent } from './Graph.component';
 
 import { SeriesService } from './series.service';
+import { TrendService } from './Trends.service';
 
 import { DomSanitizer } from '@angular/platform-browser';
 
@@ -42,7 +43,7 @@ export class SafeHtmlPipe implements PipeTransform {
     SafeHtmlPipe
   ],
   bootstrap: [ MainComponent ],
-  providers: [ SeriesService ]
+  providers: [ SeriesService, TrendService ]
 })
 
 export class AppModule { }

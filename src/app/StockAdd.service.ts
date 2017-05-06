@@ -27,9 +27,7 @@ const STOCKS = [
 @Injectable()
 export class StockAddService {
 
-  constructor(private http: Http) {
-	  
-  }
+  constructor(private http: Http) {}
   
   private options = {
     shouldSort: true,
