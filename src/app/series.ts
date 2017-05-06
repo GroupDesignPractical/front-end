@@ -23,3 +23,8 @@ export class News {
   hovered: boolean;
   shape: number;
 }
+export class TrendData {
+	data: number;
+	subject: string;
+	sentiment: number;
+}

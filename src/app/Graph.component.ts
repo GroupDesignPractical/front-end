@@ -3,7 +3,7 @@ import { ChartModule } from 'angular2-highcharts';
 import { SeriesChange } from './series-change';
 import { Headers, Http, Response } from '@angular/http';
 import { Injectable } from '@angular/core';
-
+import { TrendData } from './series';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
@@ -195,11 +195,11 @@ export class GraphComponent implements OnChanges, OnInit, AfterViewInit{
 	return l;
   }
 
-  private processTrend(res:Response):number[] {
+  private processTrend(res:Response):TrendData[] {
 	var l = []
     for (var i = 0; i < res.json().data.length; i+=1){
 	  var date = new Date(res.json().data[i].date)
-      l.push([Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()), res.json().data[i].volume])
+      l.push({data: [Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()), res.json().data[i].volume], subject: res.json().data[i].datum, sentiment: res.json().data[i].sentiment})
     }
 	return l;
   }
@@ -216,7 +216,7 @@ export class GraphComponent implements OnChanges, OnInit, AfterViewInit{
 		this.http.get(url)
 		.toPromise()
 		.then(res => {
-			var l = this.processTrend(res)
+			var l = this.processTrend(res).datum;
 			this.chart.addSeries({
 				name: trend.name,
 				data: l,
