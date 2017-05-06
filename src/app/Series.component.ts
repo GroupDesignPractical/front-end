@@ -30,7 +30,7 @@ export class SafeHtmlPipe implements PipeTransform {
         <p>Stocks</p>
         <!-- <form class="pure-form radio-section"> -->
           <div *ngFor="let market of markets">
-            <input id="{{market.UID}}" type="checkbox" name="market-checkboxes" value="{{market.UID}}" [checked]="market.selected" (change)="onChange({UID: market.UID, index: market.index, selected: $event.target.checked, name: market.name, color: market.color})">
+            <input id="{{market.UID}}" type="checkbox" name="market-checkboxes" value="{{market.UID}}" [checked]="market.selected" (change)="onChange({UID: market.UID, index: market.index, selected: $event.target.checked, name: market.name, color: market.color, symbol: market.symbol})">
             <label for="{{market.UID}}">
               <span class="{{'market-color-' + market.index + ' market'}}"><span></span></span>{{market.name}}
             </label>
@@ -40,7 +40,7 @@ export class SafeHtmlPipe implements PipeTransform {
         <p>Trends</p>
         <form class="pure-form radio-section">
           <div *ngFor='let trend of trends | async'>
-            <input id="{{trend.UID}}" type="checkbox" name="trend-checkboxes" value="{{trend.UID}}" [checked]="trend.selected" (change)="onChange({UID: trend.UID, index: trend.index, selected: $event.target.checked, name: trend.name, color: trend.color})">
+            <input id="{{trend.UID}}" type="checkbox" name="trend-checkboxes" value="{{trend.UID}}" [checked]="trend.selected" (change)="onChange({UID: trend.UID, index: trend.index, selected: $event.target.checked, name: trend.name, color: trend.color, symbol: 'NONE'})">
             <label for="{{trend.UID}}">
               <span class="{{'trend-color-' + trend.index + ' trend'}}"><span></span></span>{{trend.name}}
             </label>
@@ -58,9 +58,9 @@ export class SafeHtmlPipe implements PipeTransform {
 })
 export class SeriesComponent implements AfterViewInit, OnInit{
   markets: any = [
-    {UID: 1002, name: 'FTSE 100', index: 1, selected: false, color: '#FFCC00'},
-    {UID: 1043, name: 'Dow Jones', index: 2, selected: false, color: '#FF66FF'},
-    {UID: 1434, name: 'Crude Oil', index: 3, selected: false, color: '#66FF33'}
+    {UID: 1002, name: 'FTSE 100', index: 1, selected: false, color: '#FFCC00', symbol: 'FTSE'},
+    {UID: 1043, name: 'Dow Jones', index: 2, selected: false, color: '#FF66FF', symbol: 'DJO'},
+    {UID: 1434, name: 'Crude Oil', index: 3, selected: false, color: '#66FF33', symbol: 'COI'}
   ];
 
   trends: Observable<Array<Trend>>;
@@ -113,6 +113,6 @@ export class SeriesComponent implements AfterViewInit, OnInit{
   };
   articleClicked(article: any) {
     article.selected = ! article.selected;
-    this.onChange({UID: article.UID, index: article.index, selected: article.selected, name: article.name, shape: article.shape, color:'#000000', type: 'article'});
+    this.onChange({UID: article.UID, index: article.index, selected: article.selected, name: article.name, shape: article.shape, color:'#000000', type: 'article', symbol: 'NONE'});
   }
 }

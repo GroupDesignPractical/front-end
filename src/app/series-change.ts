@@ -6,4 +6,5 @@ export class SeriesChange {
   shape: number;
   type: any;
   name: string;
+  symbol: string;
 }

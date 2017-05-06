@@ -46,12 +46,8 @@ export class SeriesService {
         default:
           color = '#AAAAAA';
       }
-      trends[i].name = name;
-      trends[i].UID =UID;
-      trends[i].index = index;
-      trends[i].selected = false;
-      trends[i].hovered = false;
-      trends[i].color = color;
+	  var trendSource: Trend = {name: name, UID: UID, index: index, selected: false, hovered: false, color: color};
+      trends[i] = trendSource;
     }
     return trends || { };
   }
