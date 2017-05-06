@@ -57,6 +57,16 @@ h1 {
 	border-style: none none none none;
 }
 
+#news-comp {
+  min-width: 400px;
+  margin-top: 40px;
+  border-style: solid;
+  border-width: thick;
+  border-color: #22aaff;
+  border-radius: 6px;
+  padding: 5px;
+}
+
 input[type=checkbox]:not(old),
 input[type=radio]:not(old){
   width: 2em;

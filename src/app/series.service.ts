@@ -62,6 +62,7 @@ export class SeriesService {
     var news: News[] = new Array(res.json().length)
     for (var i = 0; i < res.json().length; i++){
       var name = res.json()[i].name;
+	  var api_name = res.json()[i].api_name;
       var UID = 3000 +  i;
       var index = i + 1;
       var shape: number;
@@ -70,7 +71,7 @@ export class SeriesService {
       } else {
         shape = 0
       }
-	  var newsSource: News = {name: name, UID: UID, index: index, selected: false, hovered: false, shape: shape};
+	  var newsSource: News = {name: name, api_name : api_name, UID: UID, index: index, selected: false, hovered: false, shape: shape};
       news[i] = newsSource;
     }
     return news || { };

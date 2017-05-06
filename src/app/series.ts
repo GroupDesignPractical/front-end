@@ -17,6 +17,7 @@ export class Trend {
 }
 export class News {
   name: string;
+  api_name: string;
   UID: number;
   index: number;
   selected: boolean;

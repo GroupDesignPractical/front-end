@@ -10,6 +10,7 @@ import { MarketSuggestComponent } from './MarketSuggest.component';
 import { TimePeriodComponent } from './TimePeriod.component';
 import { SeriesComponent } from './Series.component';
 import { GraphComponent } from './Graph.component';
+import { NewsComponent } from './News.component';
 
 import { SeriesService } from './series.service';
 
@@ -39,6 +40,7 @@ export class SafeHtmlPipe implements PipeTransform {
     TimePeriodComponent,
     SeriesComponent,
     GraphComponent,
+	NewsComponent,
     SafeHtmlPipe
   ],
   bootstrap: [ MainComponent ],

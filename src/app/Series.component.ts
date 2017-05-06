@@ -110,7 +110,7 @@ export class SeriesComponent implements AfterViewInit, OnInit{
   };
   articleClicked(article: any) {
     article.selected = ! article.selected;
-    this.onChange({UID: article.UID, index: article.index, selected: article.selected, name: article.name, shape: article.shape, color:'#000000', type: 'article', symbol: 'NONE'});
+    this.onChange({UID: article.UID, index: article.index, selected: article.selected, name: article.name, api_name : article.api_name, shape: article.shape, color:'#000000', type: 'article', symbol: 'NONE'});
   }
   addMarket(stock: Stock) {
 	  var UID = this.markets.length + 1000;
@@ -120,7 +120,7 @@ export class SeriesComponent implements AfterViewInit, OnInit{
 	  var symbol = stock.symbol;
 	  var newStock: Stock = {name: name, symbol: symbol, UID: UID, index: index, selected: true, hovered: false, color: color};
 	  this.markets.push(newStock);
-	  this.onChange({UID: UID, index: index, selected: true, color: color, shape: 0, type: 'market', name: name, symbol: symbol});
+	  this.onChange({UID: UID, index: index, selected: true, color: color, shape: 0, type: 'market', name: name, api_name : 'NONE', symbol: symbol});
   }
   getColor(index: number) {
     switch(index){

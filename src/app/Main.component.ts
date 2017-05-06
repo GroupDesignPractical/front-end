@@ -4,6 +4,7 @@ import { TimePeriod } from './time-period';
 import { TimePeriodComponent } from './TimePeriod.component';
 import { GraphComponent } from './Graph.component';
 import { SeriesComponent } from './Series.component';
+import { NewsComponent } from './News.component';
 import { SeriesChange } from './series-change';
 import { AfterViewInit, ViewChild } from '@angular/core';
 import { Stock } from './series';
@@ -46,14 +47,20 @@ import { Stock } from './series';
         <graph-comp [periodEndUTC]="endDateUTC" [numMonths]="selectedPeriod" [options]="options">
           Load graph...
         </graph-comp>
-      </div>
+	  </div>
       <div class="pure-u-1 pure-u-md-6-24">
         <display-series (sChange)="handleSeriesChangeEvent($event)">
             Loading series selection...
         </display-series>
         {{ endDate }}
       </div>
+	  <div class="pure-u-1 pure-u-md-24-24" id="news-comp">
+	    <news-comp>
+		  LoadingNews...
+		</news-comp>
+	  </div>
     </div>
+	
   `
 })
 
@@ -63,6 +70,8 @@ export class MainComponent implements OnInit, AfterViewInit {
   private graphComponent: GraphComponent;
   @ViewChild(SeriesComponent)
   private seriesComponent: SeriesComponent;
+  @ViewChild(NewsComponent)
+  private newsComponent : NewsComponent;
 
   ngAfterViewInit() {
 
@@ -118,6 +127,7 @@ export class MainComponent implements OnInit, AfterViewInit {
   handleSeriesChangeEvent(sChange) {
     if (sChange.UID >= 3000){
       this.graphComponent.NewsChange(sChange);
+	  this.newsComponent.NewsChange(sChange);
     } else if (sChange.UID >= 2000){
       this.graphComponent.TrendChange(sChange);
     } else if (sChange.UID >= 1000){
