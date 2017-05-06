@@ -9,8 +9,8 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class SeriesService {
 
-  private trendsUrl = 'http://51.140.124.252:3000/trend_sources';
-  private newsUrl = 'http://51.140.124.252:3000/news_sources';
+  private trendsUrl = 'http://marketjunction.meming.science:3000/trend_sources';
+  private newsUrl = 'http://marketjunction.meming.science:3000/news_sources';
 
   constructor(private http: Http) {}
   

@@ -166,7 +166,7 @@ export class GraphComponent implements OnChanges, OnInit, AfterViewInit{
 		var end = encodeURIComponent(endDate.toISOString());
 		var start = encodeURIComponent(startDate.toISOString());
 		
-		var url = "http://51.140.124.252:3000/stock?symbol="+market.symbol+"&start="+start+"&end="+end;
+		var url = "http://marketjunction.meming.science:3000/stock?symbol="+market.symbol+"&start="+start+"&end="+end;
 		
 		this.http.get(url)
 		.toPromise()
@@ -188,21 +188,19 @@ export class GraphComponent implements OnChanges, OnInit, AfterViewInit{
   }
   
   private processStock(res:Response):number[] {
-	var l = []
-    for (var i = 0; i < res.json().data.length; i+=1){
-	  var date = new Date(res.json().data[i].date)
-      l.push([Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()), res.json().data[i].datum])
-    }
-	return l;
+    return res.json().data.map(function(p){
+      return [new Date(p.date).valueOf(), p.datum]
+    })
   }
 
   private processTrend(res:Response):TrendData[] {
-	var l = []
-    for (var i = 0; i < res.json().data.length; i+=1){
-	  var date = new Date(res.json().data[i].date)
-      l.push({data: [Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()), res.json().data[i].volume], subject: res.json().data[i].datum, sentiment: res.json().data[i].sentiment})
-    }
-	return l;
+    return res.json().data.map(function(p){
+      return {
+        data: [new Date(p.date).valueOf(), p.volume],
+        subject: p.datum,
+        sentiment: p.sentiment
+      }
+    })
   }
   
   TrendChange(trend: SeriesChange){
@@ -212,12 +210,14 @@ export class GraphComponent implements OnChanges, OnInit, AfterViewInit{
 		var end = encodeURIComponent(endDate.toISOString());
 		var start = encodeURIComponent(startDate.toISOString());
 		
-		var url = "http://51.140.124.252:3000/trends?source="+trend.name+"&start="+start+"&end="+end;
+		var url = "http://marketjunction.meming.science:3000/trends?source="+trend.name+"&start="+start+"&end="+end;
 		
 		this.http.get(url)
 		.toPromise()
 		.then(res => {
-			var l = this.processTrend(res).map(function(s){return (s.data)});
+			var trends = this.processTrend(res)
+			var l = trends.map(function(s){return (s.data)});
+			var s = trends.map(function(s){return (s.subject)});
 			this.chart.addSeries({
 				name: trend.name,
 				data: l,
@@ -225,7 +225,12 @@ export class GraphComponent implements OnChanges, OnInit, AfterViewInit{
 				id : trend.UID,
 				yAxis : 1, 
 				type : "column",
-				zIndex : 0
+				zIndex : 0,
+				dataLabels : {
+					enabled:true,
+					formatter: function() {return this.series.options.subjects[this.point.index]}
+				},
+				subjects: s
 			});
 		})
 		.catch(this.handleError);
@@ -246,7 +251,7 @@ export class GraphComponent implements OnChanges, OnInit, AfterViewInit{
 		var end = encodeURIComponent(endDate.toISOString());
 		var start = encodeURIComponent(startDate.toISOString());
 		
-		var url = "http://51.140.124.252:3000/news?source="+news.name+"&start="+start+"&end="+end;
+		var url = "http://marketjunction.meming.science:3000/news?source="+news.name+"&start="+start+"&end="+end;
 		
 		this.http.get(url)
 		.toPromise()
