@@ -25,7 +25,7 @@ import {StockAddService, Stock} from './StockAdd.service'
         <div class="pure-u-1 pure-u-md-21-24">
           <div id="stock-search-box">
             <div class="pure-u-1-24"></div>
-            <input [(ngModel)]="newStock" placeholder="e.g. Nikkei 225" class="pure-u-22-24" (keyup) = "search(newStock)">
+            <input [(ngModel)]="newStock" placeholder="e.g. LLOYds Banking Group" class="pure-u-22-24" (keyup) = "search(newStock)">
 			<div *ngFor = "let stock of stocks | async" id=stock-search-result (click) = addStock(stock)>
 				{{stock.name}}
 			</div>
@@ -63,6 +63,6 @@ export class MarketAddComponent implements OnInit{
 			.switchMap(term => 
 				this.stockAddService.search(term))
 			.catch(error => {console.log(error); return Observable.of<Stock[]>([]);})
-			.do(x => console.log("x is " + x)); //DEBUG
+			//.do(x => console.log("x is " + x)); //DEBUG
 	}
 }

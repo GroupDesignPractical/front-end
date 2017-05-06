@@ -47,7 +47,6 @@ export class StockAddService {
 	return this.http
 	           .get('http://51.140.124.252:3000/stocks')
 			   .map(response => response.json() as Stock[])
-			   .do(x => console.log("stocks read are " + x)); //DEBUG
   }
   private fuse : Fuse = new Fuse([], this.options);
   private result = this.getStockData().first().subscribe(
@@ -58,7 +57,6 @@ export class StockAddService {
 
   search(term: string): Observable<Stock[]> {
 	var ans : Stock[] = this.fuse.search(term).slice(0, 3) as Stock[];	
-	console.log(ans); //DEBUG
     return Observable.of<Stock[]>(ans);
   }
 }

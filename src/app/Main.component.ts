@@ -37,17 +37,17 @@ import { Stock } from './series';
     </div>
 
     <div class="pure-g" id="main-grid-row">
-      <div class="pure-u-1 pure-u-md-1-6">
+      <div class="pure-u-1 pure-u-md-3-24">
         <time-period (sPeriod)="handlePeriodChangeEvent($event)">
             Loading time period selection...
         </time-period>
       </div>
-      <div class="pure-u-1 pure-u-md-2-3">
+      <div class="pure-u-1 pure-u-md-15-24">
         <graph-comp [periodEndUTC]="endDateUTC" [numMonths]="selectedPeriod" [options]="options">
           Load graph...
         </graph-comp>
       </div>
-      <div class="pure-u-1 pure-u-md-1-6">
+      <div class="pure-u-1 pure-u-md-6-24">
         <display-series (sChange)="handleSeriesChangeEvent($event)">
             Loading series selection...
         </display-series>
