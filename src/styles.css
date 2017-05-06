@@ -21,13 +21,15 @@ h1 {
 
 #stock-search-result{
   background-color: #8bc7f4;
-  width: 
+  margin-left: 20px;
+  margin-right: 8px;
   opacity: 1.0;
 }
 
 #stock-search-result:hover {
   color: #eee;
   background-color: #607D8B;
+  cursor: pointer;
 }
 
 .sidebar, .sidebar-divider {
@@ -48,6 +50,13 @@ h1 {
   padding: 0px;
   height: 0%;
 }
+
+#news {
+    padding-top: 3px;
+	height: 200px;
+	border-style: none none none none;
+}
+
 input[type=checkbox]:not(old),
 input[type=radio]:not(old){
   width: 2em;

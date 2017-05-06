@@ -45,11 +45,13 @@ export class SafeHtmlPipe implements PipeTransform {
           </div>
         </form>
         <div class="sidebar-divider"></div>
-        <p>News Articles</p>
+	    <p>News Articles:</p>
+		<div class="pure-menu pure-menu-scrollable sidebar-divider" id=news>
           <div *ngFor='let article of articles | async' (click)="articleClicked(article)" (mouseenter)="article.hovered = true" (mouseleave)="article.hovered = false">
             <div style="float: left; padding-left: 8px;" [innerHTML]="getCheckBoxElement(article.index, article.selected, article.hovered) | safeHtml"></div>
             <div style="margin-left: 31px; margin-bottom: -10px;">{{ article.name }}</div><br>
           </div>
+		</div>
       </div>
   `,
   providers: [SeriesService]
