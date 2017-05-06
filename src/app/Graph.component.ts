@@ -187,21 +187,19 @@ export class GraphComponent implements OnChanges, OnInit, AfterViewInit{
   }
   
   private processStock(res:Response):number[] {
-	var l = []
-    for (var i = 0; i < res.json().data.length; i+=1){
-	  var date = new Date(res.json().data[i].date)
-      l.push([Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()), res.json().data[i].datum])
-    }
-	return l;
+    return res.json().data.map(function(p){
+      return [new Date(p.date).valueOf(), p.datum]
+    )
   }
 
   private processTrend(res:Response):TrendData[] {
-	var l = []
-    for (var i = 0; i < res.json().data.length; i+=1){
-	  var date = new Date(res.json().data[i].date)
-      l.push({data: [Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()), res.json().data[i].volume], subject: res.json().data[i].datum, sentiment: res.json().data[i].sentiment})
-    }
-	return l;
+    return res.json().data.map(function(p){
+      return {
+        data: [new Date(p.date).valueOf(), p.volume],
+        subject: p.datum,
+        sentiment: p.sentiment
+      }
+    })
   }
   
   TrendChange(trend: SeriesChange){
