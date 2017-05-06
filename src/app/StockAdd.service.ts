@@ -39,7 +39,7 @@ export class StockAddService {
   
   getStockData() : Observable<Stock[]> {
 	return this.http
-	           .get('http://51.140.124.252:3000/stocks')
+	           .get('http://marketjunction.meming.science:3000/stocks')
 			   .map(response => response.json() as Stock[])
   }
   private fuse : Fuse = new Fuse([], this.options);

@@ -165,7 +165,7 @@ export class GraphComponent implements OnChanges, OnInit, AfterViewInit{
 		var end = encodeURIComponent(endDate.toISOString());
 		var start = encodeURIComponent(startDate.toISOString());
 		
-		var url = "http://51.140.124.252:3000/stock?symbol="+market.symbol+"&start="+start+"&end="+end;
+		var url = "http://marketjunction.meming.science:3000/stock?symbol="+market.symbol+"&start="+start+"&end="+end;
 		
 		this.http.get(url)
 		.toPromise()
@@ -209,7 +209,7 @@ export class GraphComponent implements OnChanges, OnInit, AfterViewInit{
 		var end = encodeURIComponent(endDate.toISOString());
 		var start = encodeURIComponent(startDate.toISOString());
 		
-		var url = "http://51.140.124.252:3000/trends?source="+trend.name+"&start="+start+"&end="+end;
+		var url = "http://marketjunction.meming.science:3000/trends?source="+trend.name+"&start="+start+"&end="+end;
 		
 		this.http.get(url)
 		.toPromise()
@@ -243,7 +243,7 @@ export class GraphComponent implements OnChanges, OnInit, AfterViewInit{
 		var end = encodeURIComponent(endDate.toISOString());
 		var start = encodeURIComponent(startDate.toISOString());
 		
-		var url = "http://51.140.124.252:3000/news?source="+news.name+"&start="+start+"&end="+end;
+		var url = "http://marketjunction.meming.science:3000/news?source="+news.name+"&start="+start+"&end="+end;
 		
 		this.http.get(url)
 		.toPromise()
