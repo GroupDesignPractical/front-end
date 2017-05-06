@@ -10,7 +10,7 @@ import 'rxjs/add/operator/first';
 
 import * as Fuse from 'fuse.js';
 
-interface Stock{
+export interface Stock{
 	symbol : string;
 	name : string;
 	icb_supersector: string;
@@ -56,9 +56,9 @@ export class StockAddService {
 									   },
 							  error => {console.log(error)});
 
-  search(term: string): Observable<string[]> {
-	var ans : string[] = this.fuse.search(term).map(elem => elem["name"]).slice(0, 3);	
+  search(term: string): Observable<Stock[]> {
+	var ans : Stock[] = this.fuse.search(term).slice(0, 3) as Stock[];	
 	console.log(ans); //DEBUG
-    return Observable.of<string[]>(ans);
+    return Observable.of<Stock[]>(ans);
   }
 }

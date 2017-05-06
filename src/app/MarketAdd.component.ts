@@ -11,7 +11,7 @@ import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/switchMap';
 
-import {StockAddService} from './StockAdd.service'
+import {StockAddService, Stock} from './StockAdd.service'
 
 
 @Component({
@@ -27,7 +27,7 @@ import {StockAddService} from './StockAdd.service'
             <div class="pure-u-1-24"></div>
             <input [(ngModel)]="newStock" placeholder="e.g. Nikkei 225" class="pure-u-22-24" (keyup) = "search(newStock)">
 			<div *ngFor = "let stock of stocks | async" >
-				{{stock}}
+				{{stock.name}}
 			</div>
           </div>
         </div>
@@ -35,19 +35,12 @@ import {StockAddService} from './StockAdd.service'
   `
 })
 export class MarketAddComponent implements OnInit{
-	
 
-    stocks: Observable<string[]> = Observable.of<string[]>(["A"]);
-	private tempStocks : string[] = ["A", "B", "C"];
-	private test = "A"
+    stocks: Observable<Stock[]> = Observable.of<Stock[]>([]);
 	private searchTerms = new Subject<string>();
 	
 	constructor(
-		private stockAddService: StockAddService){
-			setTimeout(() => {
-			  this.test = "B"
-			}, 1000);
-		}
+		private stockAddService: StockAddService){}
 
 	search(term: string): void{
 		this.searchTerms.next(term);
@@ -65,7 +58,7 @@ export class MarketAddComponent implements OnInit{
 			.distinctUntilChanged()
 			.switchMap(term => 
 				this.stockAddService.search(term))
-			.catch(error => {console.log(error); return Observable.of<string[]>(["C"]);})
+			.catch(error => {console.log(error); return Observable.of<Stock[]>([]);})
 			.do(x => console.log("x is " + x)); //DEBUG
 	}
 }
