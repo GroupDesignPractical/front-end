@@ -26,7 +26,7 @@ import {StockAddService, Stock} from './StockAdd.service'
           <div id="stock-search-box">
             <div class="pure-u-1-24"></div>
             <input [(ngModel)]="newStock" placeholder="e.g. Nikkei 225" class="pure-u-22-24" (keyup) = "search(newStock)">
-			<div *ngFor = "let stock of stocks | async" id=stock-search-result (click) = addStock(stock)>
+			<div *ngFor = "let stock of stocks | async" id=stock-search-result (click) = "addStock(stock)" >
 				{{stock.name}}
 			</div>
           </div>
@@ -47,7 +47,7 @@ export class MarketAddComponent implements OnInit{
 	}
 	
 	addStock(stock: Stock) : void{
-		console.log("Added!")
+		console.log("Added!");
 	}
 	
 	newStock = '';
