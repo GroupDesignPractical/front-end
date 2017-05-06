@@ -3,8 +3,10 @@ import { Component, OnInit } from '@angular/core';
 import { TimePeriod } from './time-period';
 import { TimePeriodComponent } from './TimePeriod.component';
 import { GraphComponent } from './Graph.component';
+import { SeriesComponent } from './Series.component';
 import { SeriesChange } from './series-change';
 import { AfterViewInit, ViewChild } from '@angular/core';
+import { Stock } from './series';
 
 @Component({
   selector: 'my-app',
@@ -17,7 +19,7 @@ import { AfterViewInit, ViewChild } from '@angular/core';
     <div class="pure-g" id="search-bar-grid-row">
       <div class="pure-u-1 pure-u-md-1-6"></div>
       <div class="pure-u-1 pure-u-md-2-3">
-        <market-add>
+        <market-add (sAdd)="handleMarketAddEvent($event)">
           Loading market search...
         </market-add>
       </div>
@@ -59,6 +61,8 @@ export class MainComponent implements OnInit, AfterViewInit {
 
   @ViewChild(GraphComponent)
   private graphComponent: GraphComponent;
+  @ViewChild(SeriesComponent)
+  private seriesComponent: SeriesComponent;
 
   ngAfterViewInit() {
 
@@ -107,6 +111,9 @@ export class MainComponent implements OnInit, AfterViewInit {
   handlePeriodChangeEvent(period) {
     this.selectedPeriod = period.numMonths;
 	this.graphComponent.PeriodChange(this.selectedPeriod);
+  }
+  handleMarketAddEvent(stock) {
+	  this.seriesComponent.addMarket(stock);
   }
   handleSeriesChangeEvent(sChange) {
     if (sChange.UID >= 3000){

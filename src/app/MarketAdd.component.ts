@@ -1,4 +1,4 @@
-import { Component, OnInit }         from '@angular/core';
+import { Component, OnInit, Output, EventEmitter }         from '@angular/core';
 import { Observable }        from 'rxjs/Observable';
 import { Subject }           from 'rxjs/Subject';
 
@@ -41,13 +41,17 @@ export class MarketAddComponent implements OnInit{
 	
 	constructor(
 		private stockAddService: StockAddService){}
+		
+	@Output() sAdd = new EventEmitter();
 
 	search(term: string): void{
 		this.searchTerms.next(term);
 	}
 	
 	addStock(stock: Stock) : void{
-		console.log("Added!")
+		this.sAdd.emit(stock);
+		this.newStock = '';
+		this.search(this.newStock);
 	}
 	
 	newStock = '';
