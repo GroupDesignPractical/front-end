@@ -50,6 +50,12 @@ h1 {
   padding: 0px;
   height: 0%;
 }
+
+#news {
+    padding-top: 3px;
+	height: 200px;
+}
+
 input[type=checkbox]:not(old),
 input[type=radio]:not(old){
   width: 2em;
