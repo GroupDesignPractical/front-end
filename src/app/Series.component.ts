@@ -58,9 +58,9 @@ export class SafeHtmlPipe implements PipeTransform {
 })
 export class SeriesComponent implements AfterViewInit, OnInit{
   markets: any = [
-    {UID: 1002, name: 'FTSE 100', index: 1, selected: false, color: '#FFCC00', symbol: 'FTSE'},
-    {UID: 1043, name: 'Dow Jones', index: 2, selected: false, color: '#FF66FF', symbol: 'DJO'},
-    {UID: 1434, name: 'Crude Oil', index: 3, selected: false, color: '#66FF33', symbol: 'COI'}
+    {UID: 1002, name: 'FTSE 100', index: 1, selected: false, color: '#FFCC00', symbol: 'BARC'},
+    {UID: 1043, name: 'Dow Jones', index: 2, selected: false, color: '#FF66FF', symbol: 'LLOY'},
+    {UID: 1434, name: 'Crude Oil', index: 3, selected: false, color: '#66FF33', symbol: 'HSBA'}
   ];
 
   trends: Observable<Array<Trend>>;
@@ -114,5 +114,10 @@ export class SeriesComponent implements AfterViewInit, OnInit{
   articleClicked(article: any) {
     article.selected = ! article.selected;
     this.onChange({UID: article.UID, index: article.index, selected: article.selected, name: article.name, shape: article.shape, color:'#000000', type: 'article', symbol: 'NONE'});
+  }
+  addMarket(stock: Stock) {
+	  alert("IN SERIES COMPONENT")
+	  alert(stock.name);
+	  alert(stock.symbol);
   }
 }
