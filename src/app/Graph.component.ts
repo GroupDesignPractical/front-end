@@ -216,7 +216,7 @@ export class GraphComponent implements OnChanges, OnInit, AfterViewInit{
 		this.http.get(url)
 		.toPromise()
 		.then(res => {
-			var l = this.processTrend(res).data;
+			var l = this.processTrend(res).map(function(s){return (s.data)});
 			this.chart.addSeries({
 				name: trend.name,
 				data: l,
