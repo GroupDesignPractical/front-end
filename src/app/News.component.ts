@@ -23,7 +23,10 @@ import { NewsService, News } from './News.service'
   template: `
     <div class="pure-g" id="article-grid" >
       <div *ngFor = "let article of articlesToDisplay" class="pure-u-1">
-        {{article.source_name}} : {{article.date}} : {{article.headline}}
+        <p> {{article.source_name}} : {{article.date}} : {{article.headline}} </p>
+        <p> Facebook Reactions: like - {{article.facebook_reacts.like}}; angry - {{article.facebook_reacts.angry}};
+                                haha - {{article.facebook_reacts.haha}}; love - {{article.facebook_reacts.love}};
+                                sad - {{article.facebook_reacts.sad}}; wow - {{article.facebook_reacts.wow}}.
       </div>
 	</div>
   `
@@ -56,9 +59,10 @@ export class NewsComponent implements OnInit{
 			this.articlesToDisplay = this.articlesToDisplay.filter(elem => elem.source_name != sChange.name);
 		}
 	}
-
+  
+    //reverse chronological order
 	private compareDates(a : News, b : News) : number {
-      return a.date.getTime() - b.date.getTime();
+      return Date.parse(b.date.toString()) - Date.parse(a.date.toString());
     }
 		
 	ngOnInit(){
