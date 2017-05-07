@@ -10,3 +10,9 @@ export class Stock {
   name: string;
   symbol: string;
 }
+
+export class StockScore {
+  symbol: string;
+  name: string;
+  score: number;
+}

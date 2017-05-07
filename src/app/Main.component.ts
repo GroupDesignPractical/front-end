@@ -4,6 +4,7 @@ import { TimePeriod } from './time-period';
 import { TimePeriodComponent } from './TimePeriod.component';
 import { GraphComponent } from './Graph.component';
 import { SeriesComponent } from './Series.component';
+import { MarketSuggestComponent } from './MarketSuggest.component';
 import { SeriesChange } from './series-change';
 import { AfterViewInit, ViewChild } from '@angular/core';
 import { Stock } from './series';
@@ -29,7 +30,7 @@ import { Stock } from './series';
     <div class="pure-g" id="suggested-markets-grid-row">
       <div class="pure-u-1 pure-u-md-1-6"></div>
       <div class="pure-u-1 pure-u-md-2-3">
-        <suggested-markets>
+        <suggested-markets (sAdd)="handleMarketAddEvent($event)">
             Loading suggested markets...
         </suggested-markets>
       </div>
@@ -57,16 +58,14 @@ import { Stock } from './series';
   `
 })
 
-export class MainComponent implements OnInit, AfterViewInit {
+export class MainComponent implements OnInit {
 
   @ViewChild(GraphComponent)
   private graphComponent: GraphComponent;
   @ViewChild(SeriesComponent)
   private seriesComponent: SeriesComponent;
-
-  ngAfterViewInit() {
-
-  }
+  @ViewChild(MarketSuggestComponent)
+  private marketSuggestComponent: MarketSuggestComponent;
 
   MarketChange(market: SeriesChange) { this.graphComponent.MarketChange(market); }
   TrendChange(trend: SeriesChange) { this.graphComponent.TrendChange(trend); } 
@@ -122,6 +121,7 @@ export class MainComponent implements OnInit, AfterViewInit {
       this.graphComponent.TrendChange(sChange);
     } else if (sChange.UID >= 1000){
       this.graphComponent.MarketChange(sChange);
+	  this.marketSuggestComponent.MarketChange(sChange);
     };
   }
   options: Object;
