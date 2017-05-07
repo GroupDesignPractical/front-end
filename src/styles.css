@@ -1,3 +1,10 @@
+.stock-suggest {
+  display: inline-block;
+}
+.stock-suggest:hover {
+  color: blue;
+  text-decoration: underline;
+}
 h1 {
   color: #369;
   font-family: Arial, Helvetica, sans-serif;
