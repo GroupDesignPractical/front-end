@@ -36,6 +36,7 @@ export class NewsService {
 	var end = encodeURIComponent(endDate.toISOString());
 	
     var url = "http://51.140.124.252:3000/news?source="+api_name+"&start="+start+"&end="+end;	
+    console.log(url)
 	
     var ans : News[] = [];
 	
@@ -50,9 +51,9 @@ export class NewsService {
   }
   
   private compareNews(a : News, b : News) : number {
-	    if(a == undefined) return 1;
-		if(b == undefined) return -1;
-		return this.totalReacts(b) - this.totalReacts(a);
+    if(a == undefined) return 1
+    else if(b == undefined) return -1
+    else return this.totalReacts(b) - this.totalReacts(a);
   }
 	
 	private totalReacts(a : News) : number {

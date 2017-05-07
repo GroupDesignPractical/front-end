@@ -19,10 +19,16 @@ import { NewsService, News } from './News.service'
     <div class="pure-g" id="article-grid" >
       <div *ngFor = "let article of articlesToDisplay" class="pure-u-1 tooltip" id="article-item" (click)="goToLink(article)">
         <span class="tooltiptext">{{article.description}}</span>
-        <p> {{article.source_name}} : {{article.date}} : {{article.headline}} </p>
-        <p> Facebook Reactions: like - {{article.facebook_reacts.like}}; angry - {{article.facebook_reacts.angry}};
-                                haha - {{article.facebook_reacts.haha}}; love - {{article.facebook_reacts.love}};
-                                sad - {{article.facebook_reacts.sad}}; wow - {{article.facebook_reacts.wow}}.
+        {{article.date}}: {{article.source_name}} - {{article.headline}} <br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            👍:{{article.facebook_reacts.like}}
+            ❤️:{{article.facebook_reacts.love}}
+            😂:{{article.facebook_reacts.haha}}
+            😯:{{article.facebook_reacts.wow}}
+            😢:{{article.facebook_reacts.sad}}
+            😡:{{article.facebook_reacts.angry}}
       </div>
 	</div>
   `
@@ -40,13 +46,15 @@ export class NewsComponent implements OnInit{
 	NewsChange(sChange : SeriesChange) {
 		if(sChange.selected){
 			var len = this.selectedNewsSources.length;
-			var endDate = new Date();
-			var startDate = new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate())
+			var endDate = new Date()
+			var startDate = new Date()
+      startDate.setHours(endDate.getHours() - 24)
 			var articles = this.newsService.getNews(sChange.api_name, sChange.name, startDate, endDate)
 			               .toPromise()
 			               .then(res => {this.articlesToDisplay = this.articlesToDisplay.concat(res.filter(e => e.date != undefined)) 
-			               	             this.articlesToDisplay.sort(this.compareDates);
-			                             console.log(this.articlesToDisplay);
+                                   this.articlesToDisplay.sort(this.compareDates)
+                                   this.articlesToDisplay = this.uniqArticles(this.articlesToDisplay)
+                                   this.articlesToDisplay.map(function(a){a.date=a.date.replace(/.*(\d\d\d\d-\d+-\d+).*?T(\d+:\d+).*/, "[$1 $2]")})
 			                            })
 			               .catch(error => console.log(error));
 			var s = sChange.name;
@@ -56,9 +64,17 @@ export class NewsComponent implements OnInit{
 		}
 	}
 
-	goToLink(article : News) {
+	private goToLink(article : News) {
 		window.open(article.link);
 	}
+
+  private uniqArticles = function(a : News[]) : News[] {
+    var seen = {};
+    return a.filter(function(item) {
+      var k = item.headline
+      return seen.hasOwnProperty(k) ? false : (seen[k] = true)
+    })
+  }
   
     //reverse chronological order
 	private compareDates(a : News, b : News) : number {
