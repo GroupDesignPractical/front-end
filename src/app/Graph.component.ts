@@ -194,13 +194,32 @@ export class GraphComponent implements OnChanges, OnInit, AfterViewInit{
   }
 
   private processTrend(res:Response):TrendData[] {
-    return res.json().data.map(function(p){
-      return {
-        data: [new Date(p.date).valueOf(), p.volume],
-        subject: p.datum,
-        sentiment: p.sentiment
+    var trends = res.json().data
+    var l = []
+    var cd = new Date(trends[0].date).getDate()
+    var maxvoli = 0
+    for (var i = 1; i < trends.length; i += 1) {
+      var d = new Date(trends[i].date)
+      if (d.getDate() == cd) {
+        if (trends[i].volume > trends[maxvoli].volume) {
+          maxvoli = i
+        }
+      } else {
+        l.push({
+          data: [new Date(trends[maxvoli].date).valueOf(), trends[maxvoli].volume],
+          subject: trends[maxvoli].datum,
+          sentiment: trends[maxvoli].sentiment
+        })
+        cd = d.getDate()
+        maxvoli = i
       }
+    }
+    l.push({
+      data: [new Date(trends[maxvoli].date).valueOf(), trends[maxvoli].volume],
+      subject: trends[maxvoli].datum,
+      sentiment: trends[maxvoli].sentiment
     })
+    return l
   }
   
   TrendChange(trend: SeriesChange){
@@ -216,22 +235,28 @@ export class GraphComponent implements OnChanges, OnInit, AfterViewInit{
 		.toPromise()
 		.then(res => {
 			var trends = this.processTrend(res)
-			var l = trends.map(function(s){return (s.data)});
-			var s = trends.map(function(s){return (s.subject)});
 			this.chart.addSeries({
 				name: trend.name,
-				data: l,
+				data: trends.map(function(x){return (x.data)}),
 				color : trend.color,
 				id : trend.UID,
 				yAxis : 1, 
 				type : "column",
 				zIndex : 0,
 				dataLabels : {
-					enabled:true,
-					formatter: function() {return this.series.options.subjects[this.point.index]}
-				},
-				subjects: s
-			});
+					enabled: true,
+					formatter: function() {
+            var i = this.point.index
+            var col = trends[i].sentiment > 0.55 ? "green"
+                    : trends[i].sentiment < 0.45 ? "red"
+                    : "black"
+            return '<span style="color:'+col+';">'+trends[i].subject+'</span>'
+          },
+          style: {
+            "textOutline": "none"
+          }
+				}
+			})
 		})
 		.catch(this.handleError);
 	} else {
