@@ -8,7 +8,7 @@ import 'rxjs/add/observable/throw';
 import 'rxjs/add/operator/map';
 
 export class News{
-	news_source_api_name : string;
+	source_name : string;
 	date: Date;
 	headline: string;
 	description: string;
@@ -30,19 +30,22 @@ export class NewsService {
 	  
   }
   
-  getNews(source: string, startDate: Date, endDate: Date) : Observable<News[]> {
+  getNews(api_name: string, name : string, startDate: Date, endDate: Date) : Observable<News[]> {
 	
 	var start = encodeURIComponent(startDate.toISOString());
 	var end = encodeURIComponent(endDate.toISOString());
 	
-    var url = "http://51.140.124.252:3000/news?source="+source+"&start="+start+"&end="+end;	
+    var url = "http://51.140.124.252:3000/news?source="+api_name+"&start="+start+"&end="+end;	
 	
     var ans : News[] = [];
 	
 	return this.http
 	           .get(url)
-			   //TODO: Sort array (by facebook reaction volume ?)
-		       .map(res => {var arr = res.json() as News[]; console.log(arr); return arr})
+		       .map(res => {
+		       	             var arr = (res.json() as News[])
+		       	                        .map(e => {e.source_name = name; return e;})
+		       	             console.log(arr);
+		       	             return arr})
 		       .catch(this.handleError);
   }
   
