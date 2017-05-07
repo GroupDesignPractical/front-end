@@ -17,7 +17,7 @@ import { NewsService, News } from './News.service'
   providers: [NewsService],
   template: `
     <div class="pure-g" id="article-grid" >
-      <div *ngFor = "let article of articlesToDisplay" class="pure-u-1 tooltip" (click)="goToLink(article)">
+      <div *ngFor = "let article of articlesToDisplay" class="pure-u-1 tooltip" id="article-item" (click)="goToLink(article)">
         <span class="tooltiptext">{{article.link}}</span>
         <p> {{article.source_name}} : {{article.date}} : {{article.headline}} </p>
         <p> Facebook Reactions: like - {{article.facebook_reacts.like}}; angry - {{article.facebook_reacts.angry}};

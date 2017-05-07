@@ -52,9 +52,13 @@ h1 {
 }
 
 #news {
-    padding-top: 3px;
+  padding-top: 3px;
 	height: 200px;
 	border-style: none none none none;
+}
+
+#article-item:hover {
+  cursor: pointer;
 }
 
 #news-comp {
