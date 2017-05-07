@@ -12,17 +12,13 @@ import 'rxjs/add/operator/toPromise';
 
 import { NewsService, News } from './News.service'
 
-/*class Source {
-	name : string;
-	articles : Observable<News[]>;
-}*/
-
 @Component({
   selector: 'news-comp',
   providers: [NewsService],
   template: `
     <div class="pure-g" id="article-grid" >
-      <div *ngFor = "let article of articlesToDisplay" class="pure-u-1">
+      <div *ngFor = "let article of articlesToDisplay" class="pure-u-1 tooltip" (click)="goToLink(article)">
+        <span class="tooltiptext">{{article.link}}</span>
         <p> {{article.source_name}} : {{article.date}} : {{article.headline}} </p>
         <p> Facebook Reactions: like - {{article.facebook_reacts.like}}; angry - {{article.facebook_reacts.angry}};
                                 haha - {{article.facebook_reacts.haha}}; love - {{article.facebook_reacts.love}};
@@ -58,6 +54,10 @@ export class NewsComponent implements OnInit{
 		}else{
 			this.articlesToDisplay = this.articlesToDisplay.filter(elem => elem.source_name != sChange.name);
 		}
+	}
+
+	goToLink(article : News) {
+		window.open(article.link);
 	}
   
     //reverse chronological order
