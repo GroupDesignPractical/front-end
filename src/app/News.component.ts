@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Injectable }         from '@angular/core';
+import { Component, OnInit, Input, Injectable, AfterViewChecked, ElementRef, ViewChild}         from '@angular/core';
 import { Observable }        from 'rxjs/Observable';
 import { SeriesChange }      from './series-change';
 
@@ -16,7 +16,7 @@ import { NewsService, News } from './News.service'
   selector: 'news-comp',
   providers: [NewsService],
   template: `
-    <div class="pure-g" id="article-grid" >
+    <div class="pure-g" #autoscroll id="article-grid" >
       <div *ngFor = "let article of articlesToDisplay" class="pure-u-1 tooltip" id="article-item" (click)="goToLink(article)">
         <span class="tooltiptext">{{article.description}}</span>
         {{article.date}}: {{article.source_name}} - {{article.headline}} <br />
@@ -35,10 +35,11 @@ import { NewsService, News } from './News.service'
 })
 
 @Injectable()
-export class NewsComponent implements OnInit{
+export class NewsComponent implements OnInit, AfterViewChecked{
+    @ViewChild('autoscroll') private scrollContainer : ElementRef
 
-    @Input() private selectedNewsSources : string[] = [];
-    @Input() private articlesToDisplay : News[] = [];
+    @Input() private selectedNewsSources : string[] = []
+    @Input() private articlesToDisplay : News[] = []
 
     constructor(
 		private newsService: NewsService){}
@@ -54,7 +55,8 @@ export class NewsComponent implements OnInit{
 			               .then(res => {this.articlesToDisplay = this.articlesToDisplay.concat(res.filter(e => e.date != undefined)) 
                                    this.articlesToDisplay.sort(this.compareDates)
                                    this.articlesToDisplay = this.uniqArticles(this.articlesToDisplay)
-                                   this.articlesToDisplay.map(function(a){a.date=a.date.replace(/.*(\d\d\d\d-\d+-\d+).*?T(\d+:\d+).*/, "[$1 $2]")})
+                                   this.articlesToDisplay.map(function(a){a.date=a.date.toString().replace(/.*(\d\d\d\d-\d+-\d+).*?T(\d+:\d+).*/, "[$1 $2]")})
+                                   this.articlesToDisplay = this.articlesToDisplay.reverse()
 			                            })
 			               .catch(error => console.log(error));
 			var s = sChange.name;
@@ -82,6 +84,15 @@ export class NewsComponent implements OnInit{
     }
 		
 	ngOnInit(){
-	}
+    this.scrollToBottom()
+  }
+
+  ngAfterViewChecked() {        
+    this.scrollToBottom()
+  } 
+
+  private scrollToBottom(): void {
+    this.scrollContainer.nativeElement.scrollTop = this.scrollContainer.nativeElement.scrollHeight
+  }
 }
 

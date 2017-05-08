@@ -32,20 +32,18 @@ export class NewsService {
   
   getNews(api_name: string, name : string, startDate: Date, endDate: Date) : Observable<News[]> {
 	
-	var start = encodeURIComponent(startDate.toISOString());
-	var end = encodeURIComponent(endDate.toISOString());
+	var start = encodeURIComponent(startDate.toISOString())
+	var end = encodeURIComponent(endDate.toISOString())
 	
-    var url = "http://51.140.124.252:3000/news?source="+api_name+"&start="+start+"&end="+end;	
-    console.log(url)
+  var url = "http://marketjunction.meming.science:3000/news?source="+api_name+"&start="+start+"&end="+end
 	
-    var ans : News[] = [];
+  var ans : News[] = []
 	
 	return this.http
 	           .get(url)
 		       .map(res => {
 		       	             var arr = (res.json() as News[])
 		       	                        .map(e => {e.source_name = name; return e;})
-		       	             console.log(arr);
 		       	             return arr})
 		       .catch(this.handleError);
   }
@@ -59,7 +57,6 @@ export class NewsService {
 	private totalReacts(a : News) : number {
 		if(a == undefined) return 0;
 		var total =  a.facebook_reacts.angry + a.facebook_reacts.haha + a.facebook_reacts.like + a.facebook_reacts.love + a.facebook_reacts.sad + a.facebook_reacts.wow;
-		console.log(total);
 		return total;
 	}
    

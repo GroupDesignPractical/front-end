@@ -60,8 +60,13 @@ h1 {
 
 #news {
   padding-top: 3px;
-	height: 200px;
+	height: 275px;
 	border-style: none none none none;
+}
+
+#article-grid {
+  height: 200px;
+  overflow-y: scroll;
 }
 
 #article-item:hover {
