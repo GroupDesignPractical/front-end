@@ -14,19 +14,17 @@ import 'rxjs/add/observable/throw';
   selector: 'graph-comp',
   template: `
       <div class="sidebar" id="graph">
-        <div style="height:100%;" class="pure-g">
-          <div style="flex:1;" class="pure-u-1-24">
-            <div style="height:92.5%;"></div>
-            <svg (click)="periodBack()" style="float: right" width="75%" viewBox="0 0 10 20">
+        <div class="pure-g">
+          <div style="flex:1;display:block;margin:auto;" class="pure-u-1-24">
+            <svg (click)="periodBack()" width="75%" viewBox="0 0 10 20">
               <polygon class="arrow" points="2,10 9,13 9,7"/>
             </svg>
           </div>
-          <div style="height:100%;" class="pure-u-11-12">
-            <chart style="height:100%;" [options]="options" (load)="saveInstance($event.context)"></chart>
+          <div class="pure-u-11-12">
+            <chart [options]="options" (load)="saveInstance($event.context)"></chart>
           </div>
-          <div style="flex:1;" class="pure-u-1-24">
-            <div style="height:92.5%;"></div>
-            <svg (click)="periodForward()" style="float: left" width="75%" viewBox="0 0 10 20">
+          <div style="flex:1;display:block;margin:auto;" class="pure-u-1-24">
+            <svg (click)="periodForward()" width="75%" viewBox="0 0 10 20">
               <polygon class="arrow" points="9,10 2,13 2,7"/>
             </svg>
           </div>
