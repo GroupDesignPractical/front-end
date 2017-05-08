@@ -44,12 +44,12 @@ import { Stock } from './series';
             Loading time period selection...
         </time-period>
       </div>
-      <div class="pure-u-1 pure-u-md-15-24">
+      <div class="pure-u-1 pure-u-md-15-24" id="graph-container">
         <graph-comp [periodEndUTC]="endDateUTC" [numMonths]="selectedPeriod" [options]="options">
           Load graph...
         </graph-comp>
 	  </div>
-      <div class="pure-u-1 pure-u-md-6-24">
+      <div class="pure-u-1 pure-u-md-6-24" id="series-container">
         <display-series (sChange)="handleSeriesChangeEvent($event)">
             Loading series selection...
         </display-series>

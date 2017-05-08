@@ -24,18 +24,20 @@ export class SafeHtmlPipe implements PipeTransform {
 @Component({
   selector: 'display-series',
   template: `
-      <div class="sidebar">
-        Display Series       
+      <div class="sidebar" id="series">
+        <h3>Stocks</h3>
         <div class="sidebar-divider"></div>
-        <p>Stocks</p>
+        <div class="pure-menu pure-menu-scrollable sidebar-divider" id=stocks>
           <div *ngFor="let market of markets">
             <input id="{{market.UID}}" type="checkbox" name="market-checkboxes" value="{{market.UID}}" [checked]="market.selected" (change)="onChange({UID: market.UID, index: market.index, selected: $event.target.checked, name: market.name, color: market.color, symbol: market.symbol})">
             <label for="{{market.UID}}">
               <span class="{{'market-color-' + market.index + ' market'}}"><span></span></span>{{market.name}}
             </label>
           </div>
+        </div>
         <div class="sidebar-divider"></div>
-        <p>Trends</p>
+        <h3>Trends</h3>
+        <div class="sidebar-divider"></div>
         <form class="pure-form radio-section">
           <div *ngFor='let trend of trends | async'>
             <input id="{{trend.UID}}" type="checkbox" name="trend-checkboxes" value="{{trend.UID}}" [checked]="trend.selected" (change)="onChange({UID: trend.UID, index: trend.index, selected: $event.target.checked, name: trend.name, color: trend.color, symbol: 'NONE'})">
@@ -45,11 +47,12 @@ export class SafeHtmlPipe implements PipeTransform {
           </div>
         </form>
         <div class="sidebar-divider"></div>
-	    <p>News Articles:</p>
+	    <h3>News</h3>
+      <div class="sidebar-divider"></div>
 		<div class="pure-menu pure-menu-scrollable sidebar-divider" id=news>
           <div *ngFor='let article of articles | async' (click)="articleClicked(article)" (mouseenter)="article.hovered = true" (mouseleave)="article.hovered = false">
             <div style="float: left; padding-left: 8px;" [innerHTML]="getCheckBoxElement(article.index, article.selected, article.hovered) | safeHtml"></div>
-            <div style="margin-left: 31px; margin-bottom: -10px;">{{ article.name }}</div><br>
+            <div style="margin-left: 31px;">{{ article.name }}</div><br>
           </div>
 		</div>
       </div>

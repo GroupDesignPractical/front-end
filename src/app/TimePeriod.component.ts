@@ -12,7 +12,7 @@ const PERIODS: TimePeriod[] = [
   selector: 'time-period',
   template: `
       <div class="sidebar">
-        Time Period
+        <h3>Time Period</h3>
         <div class="sidebar-divider"></div>
         <form class="pure-form radio-section">
           <div class="radio-container" *ngFor="let period of periods">

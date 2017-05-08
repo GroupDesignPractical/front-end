@@ -25,7 +25,7 @@ import {StockAddService, Stock} from './StockAdd.service'
         <div class="pure-u-1 pure-u-md-21-24">
           <div id="stock-search-box">
             <div class="pure-u-1-24"></div>
-            <input [(ngModel)]="newStock" placeholder="e.g. LLOYds Banking Group" class="pure-u-22-24" (keyup) = "search(newStock)">
+            <input [(ngModel)]="newStock" placeholder="e.g. LLOYDS BANKING GROUP PLC" class="pure-u-22-24" (keyup) = "search(newStock)">
 			<div *ngFor = "let stock of stocks | async" id=stock-search-result (click) = "addStock(stock)" >
 
 				{{stock.name}}

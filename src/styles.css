@@ -6,16 +6,22 @@
   text-decoration: underline;
 }
 h1 {
-  color: #369;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: Helvetica, Arial, sans-serif;
   font-size: 250%;
 }
+
+h3 {
+  font-family: Roboto, Helvetica, Arial, sans-serif;
+  font-size: 100%;
+  font-weight: 500;
+  margin: 0;
+}
+
 #title-text {
-  color: #005588;
-  font-family: Oxygen, Arial, Helvetica, sans-serif;
+  font-family: Roboto, Arial, Helvetica, sans-serif;
+  font-weight: 300;
   text-align: center;
-  font-size: 250%;
-  text-shadow: 0 0 5px #0088FF;
+  font-size: 300%;
 }
 #stock-search-box {
   min-width: 400px;
@@ -42,12 +48,11 @@ h1 {
 .sidebar, .sidebar-divider {
   text-align: left;
   margin: 5px;
+  border-width: 1px;
   border-style: solid;
-  border-width: thick;
-  border-color: #22aaff;
+  border-color: rgba(34, 170, 255, 0.75);
   border-radius: 6px;
   padding: 5px;
-  height: 100%;
 }
 .sidebar-divider {
   margin-left: -5px;
@@ -58,15 +63,43 @@ h1 {
   height: 0%;
 }
 
+#stocks {
+  flex: 1;
+  height: 90px;
+  text-align: left;
+  padding-top: 3px;
+	border-style: none none none none;
+  overflow-y: auto;
+  white-space: nowrap;
+}
+
+#main-grid-row {
+  height: 500px;
+}
+
+#series-container,
+#graph-container {
+  height: 100%;
+}
+
+#series,
+#graph {
+  display: flex;
+  min-height: 100%;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+
 #news {
   padding-top: 3px;
-	height: 275px;
+  height: 250px;
 	border-style: none none none none;
 }
 
 #article-grid {
   height: 200px;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 #article-item:hover {
@@ -75,12 +108,13 @@ h1 {
 
 #news-comp {
   min-width: 400px;
-  margin-top: 40px;
   border-style: solid;
-  border-width: thick;
-  border-color: #22aaff;
+  border-color: rgba(34, 170, 255, 0.75);
   border-radius: 6px;
+  border-width: 1px;
   padding: 5px;
+  margin: 5px;
+  margin-top: 20px;
 }
 
 input[type=checkbox]:not(old),
@@ -231,7 +265,7 @@ chart {
   display: block;
 }
 .arrow {
-  fill: black;
+  fill: #22aaff;
 }
 .arrow:hover {
   opacity: 0.5;
@@ -260,3 +294,33 @@ chart {
 .tooltip:hover .tooltiptext {
     visibility: visible;
 }
+
+body {
+  background-color: rgba(34, 170, 255, 0.015);
+}
+
+html, button, input, select, textarea,
+.pure-g [class *= "pure-u"] {
+  font-family: Roboto, Helvetica, Arial, sans-serif !important;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+      background-color: #4db9ff;
+}
+
+::-webkit-scrollbar-thumb {
+      background-color: #099eff;
+}
+
+::-webkit-scrollbar-button {
+      background-color: #0184d9;
+}
+
+::-webkit-scrollbar-corner {
+      background-color: black;
+}
+
