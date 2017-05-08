@@ -19,7 +19,7 @@ import { NewsService, News } from './News.service'
     <div class="pure-g" #autoscroll id="article-grid" >
       <div *ngFor = "let article of articlesToDisplay" class="pure-u-1 tooltip" id="article-item" (click)="goToLink(article)">
         <span class="tooltiptext">{{article.description}}</span>
-        {{article.date}}: {{article.source_name}} - {{article.headline}} <br />
+        {{article.datestr}}: {{article.source_name}} - {{article.headline}} <br />
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -55,7 +55,7 @@ export class NewsComponent implements OnInit, AfterViewChecked{
 			               .then(res => {this.articlesToDisplay = this.articlesToDisplay.concat(res.filter(e => e.date != undefined)) 
                                    this.articlesToDisplay.sort(this.compareDates)
                                    this.articlesToDisplay = this.uniqArticles(this.articlesToDisplay)
-                                   this.articlesToDisplay.map(function(a){a.date=a.date.toString().replace(/.*(\d\d\d\d-\d+-\d+).*?T(\d+:\d+).*/, "[$1 $2]")})
+                                   this.articlesToDisplay.map(function(a){a.datestr=a.date.toString().replace(/.*(\d\d\d\d-\d+-\d+).*?T(\d+:\d+).*/, "[$1 $2]")})
                                    this.articlesToDisplay = this.articlesToDisplay.reverse()
 			                            })
 			               .catch(error => console.log(error));

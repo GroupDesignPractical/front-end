@@ -10,6 +10,7 @@ import 'rxjs/add/operator/map';
 export class News{
 	source_name : string;
 	date: Date;
+  datestr: String; // javascript date formatters are abysmal
 	headline: string;
 	description: string;
 	link: string;
