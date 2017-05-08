@@ -287,8 +287,8 @@ chart {
  
     position: absolute;
     z-index: 1;
-    bottom: 100%;
-    left: 50%; 
+    top: 100%;
+    left: 0%; 
 }
 
 .tooltip:hover .tooltiptext {
